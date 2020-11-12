@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EmailEditDlg" widgetVar="EmailEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditEmailTitle}" closeOnEscape="true">
+
+            <h:form id="EmailEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{emailController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditEmailLabel_idEmail}" for="idEmail" />
+                        <h:panelGroup>
+                            <h:outputText id="idEmail" value="#{emailController.selected.idEmail}" />
+                            <p:tooltip for="idEmail" value="#{emailController.getComponentMessages('idEmail', mqpBundle.EditEmailHelpText_idEmail)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_destino}" for="destino" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="destino" value="#{emailController.selected.destino}" title="#{mqpBundle.EditEmailTitle_destino}" />
+                            <p:tooltip for="destino" value="#{emailController.getComponentMessages('destino', mqpBundle.EditEmailHelpText_destino)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_cc}" for="cc" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="cc" value="#{emailController.selected.cc}" title="#{mqpBundle.EditEmailTitle_cc}" />
+                            <p:tooltip for="cc" value="#{emailController.getComponentMessages('cc', mqpBundle.EditEmailHelpText_cc)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_co}" for="co" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="co" value="#{emailController.selected.co}" title="#{mqpBundle.EditEmailTitle_co}" />
+                            <p:tooltip for="co" value="#{emailController.getComponentMessages('co', mqpBundle.EditEmailHelpText_co)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_assunto}" for="assunto" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="assunto" value="#{emailController.selected.assunto}" title="#{mqpBundle.EditEmailTitle_assunto}" />
+                            <p:tooltip for="assunto" value="#{emailController.getComponentMessages('assunto', mqpBundle.EditEmailHelpText_assunto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_mensagem}" for="mensagem" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="mensagem" value="#{emailController.selected.mensagem}" title="#{mqpBundle.EditEmailTitle_mensagem}" />
+                            <p:tooltip for="mensagem" value="#{emailController.getComponentMessages('mensagem', mqpBundle.EditEmailHelpText_mensagem)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_dataEnvio}" for="dataEnvio" />
+                        <h:panelGroup>
+                            <p:calendar id="dataEnvio" pattern="dd/MM/yyyy HH:mm:ss" value="#{emailController.selected.dataEnvio}" title="#{mqpBundle.EditEmailTitle_dataEnvio}"  showOn="button"/>
+                            <p:tooltip for="dataEnvio" value="#{emailController.getComponentMessages('dataEnvio', mqpBundle.EditEmailHelpText_dataEnvio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_movimentacao}" for="movimentacao" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="movimentacao" value="#{emailController.selected.movimentacao}"  converter="mqpConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{mqpController.items}"
+                                               var="movimentacaoItem"
+                                               itemValue="#{movimentacaoItem}"
+                                               itemLabel="#{movimentacaoItem.id}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="movimentacao" value="#{emailController.getComponentMessages('movimentacao', mqpBundle.EditEmailHelpText_movimentacao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{emailController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{emailController.getComponentMessages('status', mqpBundle.EditEmailHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditEmailLabel_matriculaEnvioManual}" for="matriculaEnvioManual" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matriculaEnvioManual" value="#{emailController.selected.matriculaEnvioManual}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaEnvioManualItem"
+                                               itemValue="#{matriculaEnvioManualItem}"
+                                               itemLabel="#{matriculaEnvioManualItem.treinamentosCollection.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matriculaEnvioManual" value="#{emailController.getComponentMessages('matriculaEnvioManual', mqpBundle.EditEmailHelpText_matriculaEnvioManual)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{emailController.save}" value="#{mqpBundle.Save}" update="display,:EmailListForm:datalist,:EmailListForm:EmailDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmailEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('EmailEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

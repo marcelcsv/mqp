@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MqpInitListForm">
+
+        <p:panel header="#{mqpBundle.ListMqpInitTitle}">
+            <p:contextMenu id="MqpInitDataTableContextMenu" style="width: 280px" for="datalist">  
+                <p:menuitem value="#{mqpBundle.CreateMQPInit}" onclick="document.getElementById('MqpInitListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('MqpInitListForm:viewButton').click();" icon="ui-icon-search" />
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('MqpInitListForm:editButton').click();" icon="ui-icon-pencil" rendered="#{chave == 'F6750699'}"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('MqpInitListForm:deleteButton').click();" icon="ui-icon-trash" rendered="#{chave == 'F6750699'}"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.MqpInitMenuItem_movimentacao}" icon="ui-icon-search"  actionListener="#{mqpInitController.prepareMovimentacao}" update=":MovimentacaoViewForm" oncomplete="PF('MovimentacaoViewDialog').show()" disabled="#{empty mqpInitController.selected.movimentacao}"/>  
+                <p:menuitem value="#{mqpBundle.MqpInitMenuItem_status}" icon="ui-icon-search"  actionListener="#{mqpInitController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty mqpInitController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.MqpInitMenuItem_matrMqp}" icon="ui-icon-search"  actionListener="#{mqpInitController.prepareMatrMqp}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty mqpInitController.selected.matrMqp}"/>  
+                <p:menuitem value="#{mqpBundle.MqpInitMenuItem_matrSolicitante}" icon="ui-icon-search"  actionListener="#{mqpInitController.prepareMatrSolicitante}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty mqpInitController.selected.matrSolicitante}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{mqpInitController.items}"
+                         lazy="false"
+                         rowKey="#{item.idMQPinit}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{mqpInitController.selected}"
+                         filteredValue="#{mqpInitController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{mqpInitController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idMQPinit}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:MqpInitDataTableContextMenu" listener="#{mqpInitController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:MqpInitDataTableContextMenu" listener="#{mqpInitController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{mqpInitController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MqpInitListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idMQPinit}" width="4%">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpInitTitle_idMQPinit}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMQPinit}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.matrMqp.matricula}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpInitTitle_matrMqp}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matrMqp.matricula} - #{item.matrMqp.nome}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.movimentacao.nomeMovimentacao}" width="20%" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpInitTitle_movimentacao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.movimentacao.nomeMovimentacao}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.status.status}" width="20%" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpInitTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.matrSolicitante.matricula}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpInitTitle_matrSolicitante}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matrSolicitante.matricula} - #{item.matrSolicitante.nome}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.dtref}" width="10%">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpInitTitle_dtref}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dtref}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.CreateMQPInit}" actionListener="#{mqpInitController.prepareCreate}" update=":MqpInitCreateForm" oncomplete="PF('MqpInitCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":MqpInitViewForm" oncomplete="PF('MqpInitViewDialog').show()" disabled="#{empty mqpInitController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":MqpInitEditForm" oncomplete="PF('MqpInitEditDialog').show()" disabled="#{empty mqpInitController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{mqpInitController.delete}" update=":growl,datalist" disabled="#{empty mqpInitController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

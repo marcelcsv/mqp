@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CartaoMultibeneficiosListForm">
+
+        <p:panel header="#{mqpBundle.ListCartaoMultibeneficiosTitle}">
+            <p:contextMenu id="CartaoMultibeneficiosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('CartaoMultibeneficiosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('CartaoMultibeneficiosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('CartaoMultibeneficiosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('CartaoMultibeneficiosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.CartaoMultibeneficiosMenuItem_numRefMQPCollection}" icon="ui-icon-search"  action="#{cartaoMultibeneficiosController.navigateNumRefMQPCollection}" disabled="#{cartaoMultibeneficiosController.isNumRefMQPCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.CartaoMultibeneficiosMenuItem_status}" icon="ui-icon-search"  actionListener="#{cartaoMultibeneficiosController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty cartaoMultibeneficiosController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.CartaoMultibeneficiosMenuItem_matricula}" icon="ui-icon-search"  actionListener="#{cartaoMultibeneficiosController.prepareMatricula}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty cartaoMultibeneficiosController.selected.matricula}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{cartaoMultibeneficiosController.items}"
+                         lazy="false"
+                         rowKey="#{item.idCartaoMultibeneficios}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{cartaoMultibeneficiosController.selected}"
+                         filteredValue="#{cartaoMultibeneficiosController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{cartaoMultibeneficiosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idCartaoMultibeneficios}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CartaoMultibeneficiosDataTableContextMenu" listener="#{cartaoMultibeneficiosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CartaoMultibeneficiosDataTableContextMenu" listener="#{cartaoMultibeneficiosController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cartaoMultibeneficiosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CartaoMultibeneficiosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCartaoMultibeneficios}" filterBy="#{item.idCartaoMultibeneficios}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListCartaoMultibeneficiosTitle_idCartaoMultibeneficios}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCartaoMultibeneficios}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.dataDeAdesao}" filterBy="#{item.dataDeAdesao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListCartaoMultibeneficiosTitle_dataDeAdesao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataDeAdesao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.status.status}" filterBy="#{item.status.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListCartaoMultibeneficiosTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.matricula.matricula}" filterBy="#{item.matricula.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListCartaoMultibeneficiosTitle_matricula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matricula.matricula}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{cartaoMultibeneficiosController.prepareCreate}" update=":CartaoMultibeneficiosCreateForm" oncomplete="PF('CartaoMultibeneficiosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":CartaoMultibeneficiosViewForm" oncomplete="PF('CartaoMultibeneficiosViewDialog').show()" disabled="#{empty cartaoMultibeneficiosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":CartaoMultibeneficiosEditForm" oncomplete="PF('CartaoMultibeneficiosEditDialog').show()" disabled="#{empty cartaoMultibeneficiosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{cartaoMultibeneficiosController.delete}" update=":growl,datalist" disabled="#{empty cartaoMultibeneficiosController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

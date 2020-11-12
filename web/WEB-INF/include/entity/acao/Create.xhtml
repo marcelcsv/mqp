@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AcaoCreateDlg" widgetVar="AcaoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateAcaoTitle}" closeOnEscape="true">
+
+            <h:form id="AcaoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{acaoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateAcaoLabel_nomeAcao}" for="nomeAcao" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeAcao" value="#{acaoController.selected.nomeAcao}" title="#{mqpBundle.CreateAcaoTitle_nomeAcao}" required="true" requiredMessage="#{mqpBundle.CreateAcaoRequiredMessage_nomeAcao}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeAcao" value="#{acaoController.getComponentMessages('nomeAcao', mqpBundle.CreateAcaoHelpText_nomeAcao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateAcaoLabel_descricaoAcao}" for="descricaoAcao" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoAcao" value="#{acaoController.selected.descricaoAcao}" title="#{mqpBundle.CreateAcaoTitle_descricaoAcao}" />
+                            <p:tooltip for="descricaoAcao" value="#{acaoController.getComponentMessages('descricaoAcao', mqpBundle.CreateAcaoHelpText_descricaoAcao)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{acaoController.saveNew}" value="#{mqpBundle.Save}" update="display,:AcaoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AcaoCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('AcaoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

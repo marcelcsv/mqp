@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UorPosListForm">
+
+        <p:panel header="#{mqpBundle.ListUorPosTitle}">
+            <p:contextMenu id="UorPosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('UorPosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('UorPosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('UorPosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('UorPosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_emailCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateEmailCollection}" disabled="#{uorPosController.isEmailCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_telefoneCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateTelefoneCollection}" disabled="#{uorPosController.isTelefoneCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_gdpCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateGdpCollection}" disabled="#{uorPosController.isGdpCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_treinamentosCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateTreinamentosCollection}" disabled="#{uorPosController.isTreinamentosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_tagEstacionamentoCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateTagEstacionamentoCollection}" disabled="#{uorPosController.isTagEstacionamentoCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_cartaoCorporativoCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateCartaoCorporativoCollection}" disabled="#{uorPosController.isCartaoCorporativoCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_nivelAcesso}" icon="ui-icon-search"  actionListener="#{uorPosController.prepareNivelAcesso}" update=":NivelAcessoViewForm" oncomplete="PF('NivelAcessoViewDialog').show()" disabled="#{empty uorPosController.selected.nivelAcesso}"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_mqpInitCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateMqpInitCollection}" disabled="#{uorPosController.isMqpInitCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_mqpInitCollection1}" icon="ui-icon-search"  action="#{uorPosController.navigateMqpInitCollection1}" disabled="#{uorPosController.isMqpInitCollection1Empty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_equipamentosCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateEquipamentosCollection}" disabled="#{uorPosController.isEquipamentosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_cartaoMultibeneficiosCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateCartaoMultibeneficiosCollection}" disabled="#{uorPosController.isCartaoMultibeneficiosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_mqpCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateMqpCollection}" disabled="#{uorPosController.isMqpCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_mqpCollection1}" icon="ui-icon-search"  action="#{uorPosController.navigateMqpCollection1}" disabled="#{uorPosController.isMqpCollection1Empty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_servicosCollection}" icon="ui-icon-search"  action="#{uorPosController.navigateServicosCollection}" disabled="#{uorPosController.isServicosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.UorPosMenuItem_prestacaoDeContasCollection}" icon="ui-icon-search"  action="#{uorPosController.navigatePrestacaoDeContasCollection}" disabled="#{uorPosController.isPrestacaoDeContasCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{uorPosController.items}"
+                         lazy="false"
+                         rowKey="#{item.matricula}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{uorPosController.selected}"
+                         filteredValue="#{uorPosController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{uorPosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.matricula}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UorPosDataTableContextMenu" listener="#{uorPosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UorPosDataTableContextMenu" listener="#{uorPosController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{uorPosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('UorPosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.matricula}" filterBy="#{item.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListUorPosTitle_matricula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matricula}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.prefixo}" filterBy="#{item.prefixo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListUorPosTitle_prefixo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.prefixo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nome}" filterBy="#{item.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListUorPosTitle_nome}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nome}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.uorPos}" filterBy="#{item.uorPos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListUorPosTitle_uorPos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.uorPos}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nomeUorPos}" filterBy="#{item.nomeUorPos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListUorPosTitle_nomeUorPos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nomeUorPos}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.dataCaptura}" filterBy="#{item.dataCaptura}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListUorPosTitle_dataCaptura}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataCaptura}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.situacao}" filterBy="#{item.situacao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListUorPosTitle_situacao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.situacao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nivelAcesso.descricaoAcesso}" filterBy="#{item.nivelAcesso.descricaoAcesso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListUorPosTitle_nivelAcesso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nivelAcesso.nomeAcesso}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{uorPosController.prepareCreate}" update=":UorPosCreateForm" oncomplete="PF('UorPosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty uorPosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":UorPosEditForm" oncomplete="PF('UorPosEditDialog').show()" disabled="#{empty uorPosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{uorPosController.delete}" update=":growl,datalist" disabled="#{empty uorPosController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

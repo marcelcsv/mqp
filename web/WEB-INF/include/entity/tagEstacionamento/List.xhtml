@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TagEstacionamentoListForm">
+
+        <p:panel header="#{mqpBundle.ListTagEstacionamentoTitle}">
+            <p:contextMenu id="TagEstacionamentoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('TagEstacionamentoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('TagEstacionamentoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('TagEstacionamentoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('TagEstacionamentoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.TagEstacionamentoMenuItem_numRefMQPCollection}" icon="ui-icon-search"  action="#{tagEstacionamentoController.navigateNumRefMQPCollection}" disabled="#{tagEstacionamentoController.isNumRefMQPCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.TagEstacionamentoMenuItem_status}" icon="ui-icon-search"  actionListener="#{tagEstacionamentoController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty tagEstacionamentoController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.TagEstacionamentoMenuItem_matricula}" icon="ui-icon-search"  actionListener="#{tagEstacionamentoController.prepareMatricula}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty tagEstacionamentoController.selected.matricula}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{tagEstacionamentoController.items}"
+                         lazy="false"
+                         rowKey="#{item.tag}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{tagEstacionamentoController.selected}"
+                         filteredValue="#{tagEstacionamentoController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tagEstacionamentoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tag}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TagEstacionamentoDataTableContextMenu" listener="#{tagEstacionamentoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TagEstacionamentoDataTableContextMenu" listener="#{tagEstacionamentoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{tagEstacionamentoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TagEstacionamentoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tag}" filterBy="#{item.tag}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTagEstacionamentoTitle_tag}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tag}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nome}" filterBy="#{item.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTagEstacionamentoTitle_nome}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nome}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cpf}" filterBy="#{item.cpf}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTagEstacionamentoTitle_cpf}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cpf}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.veiculo}" filterBy="#{item.veiculo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTagEstacionamentoTitle_veiculo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.veiculo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.placa}" filterBy="#{item.placa}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTagEstacionamentoTitle_placa}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.placa}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.status.status}" filterBy="#{item.status.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTagEstacionamentoTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.matricula.matricula}" filterBy="#{item.matricula.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTagEstacionamentoTitle_matricula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matricula.matricula}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{tagEstacionamentoController.prepareCreate}" update=":TagEstacionamentoCreateForm" oncomplete="PF('TagEstacionamentoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":TagEstacionamentoViewForm" oncomplete="PF('TagEstacionamentoViewDialog').show()" disabled="#{empty tagEstacionamentoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":TagEstacionamentoEditForm" oncomplete="PF('TagEstacionamentoEditDialog').show()" disabled="#{empty tagEstacionamentoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{tagEstacionamentoController.delete}" update=":growl,datalist" disabled="#{empty tagEstacionamentoController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

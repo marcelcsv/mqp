@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PrestacaoDeContasEditDlg" widgetVar="PrestacaoDeContasEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditPrestacaoDeContasTitle}" closeOnEscape="true">
+
+            <h:form id="PrestacaoDeContasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{prestacaoDeContasController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditPrestacaoDeContasLabel_idPrestacaoDeContas}" for="idPrestacaoDeContas" />
+                        <h:panelGroup>
+                            <h:outputText id="idPrestacaoDeContas" value="#{prestacaoDeContasController.selected.idPrestacaoDeContas}" />
+                            <p:tooltip for="idPrestacaoDeContas" value="#{prestacaoDeContasController.getComponentMessages('idPrestacaoDeContas', mqpBundle.EditPrestacaoDeContasHelpText_idPrestacaoDeContas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditPrestacaoDeContasLabel_nomePrestacaoDeContas}" for="nomePrestacaoDeContas" />
+                        <h:panelGroup>
+                            <p:inputText id="nomePrestacaoDeContas" value="#{prestacaoDeContasController.selected.nomePrestacaoDeContas}" title="#{mqpBundle.EditPrestacaoDeContasTitle_nomePrestacaoDeContas}" required="true" requiredMessage="#{mqpBundle.EditPrestacaoDeContasRequiredMessage_nomePrestacaoDeContas}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomePrestacaoDeContas" value="#{prestacaoDeContasController.getComponentMessages('nomePrestacaoDeContas', mqpBundle.EditPrestacaoDeContasHelpText_nomePrestacaoDeContas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditPrestacaoDeContasLabel_descricaoPrestacaoDeContas}" for="descricaoPrestacaoDeContas" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoPrestacaoDeContas" value="#{prestacaoDeContasController.selected.descricaoPrestacaoDeContas}" title="#{mqpBundle.EditPrestacaoDeContasTitle_descricaoPrestacaoDeContas}" />
+                            <p:tooltip for="descricaoPrestacaoDeContas" value="#{prestacaoDeContasController.getComponentMessages('descricaoPrestacaoDeContas', mqpBundle.EditPrestacaoDeContasHelpText_descricaoPrestacaoDeContas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditPrestacaoDeContasLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{prestacaoDeContasController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{prestacaoDeContasController.getComponentMessages('status', mqpBundle.EditPrestacaoDeContasHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditPrestacaoDeContasLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{prestacaoDeContasController.selected.matricula}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{prestacaoDeContasController.getComponentMessages('matricula', mqpBundle.EditPrestacaoDeContasHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{prestacaoDeContasController.save}" value="#{mqpBundle.Save}" update="display,:PrestacaoDeContasListForm:datalist,:PrestacaoDeContasListForm:PrestacaoDeContasDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PrestacaoDeContasEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('PrestacaoDeContasEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

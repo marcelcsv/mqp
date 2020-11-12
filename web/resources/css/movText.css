@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Double+Pica+SC&display=swap');
+/*@import url('https://fonts.googleapis.com/css?family=Hanalei|Londrina+Shadow&display=swap');*/
+/*@import url('https://fonts.googleapis.com/css?family=Faster+One&display=swap');*/
+
+#text {
+    position: absolute;
+    top: 60px;
+    left: 5px;
+    font-family: 'IM Fell Double Pica SC', serif;
+    /*  font-family: 'Londrina Shadow', cursive;*/
+    /*  font-family: 'Faster One', cursive;*/
+    font-size: 30px;
+    /*    text-shadow:
+            0 0 5px #93c0ff,
+            0 0 10px #93c0ff,
+            0 0 20px #93c0ff,
+            0 0 40px #c1dbff,
+            0 0 80px #c1dbff,
+            0 0 90px #c1dbff,
+            0 0 100px #c1dbff,
+            0 0 150px #c1dbff;*/
+}
+
+
+
+/*body{text-align:center;padding:80px;overflow:hidden}
+
+.road-wrap{
+    -webkit-perspective:160px;
+    perspective:160px;
+}
+
+.road-wrap .road{
+    margin-top:-360px;
+    -webkit-transform:rotateX(80deg);
+    transform:rotateX(80deg);
+}
+
+.road-wrap .lane-wrap{
+    -webkit-animation:steer 4s linear infinite;
+    animation:steer 4s linear infinite;
+}
+
+.road-wrap .lane{
+    width:25px;
+    margin:auto;
+}
+
+.road-wrap .lane>div{
+    width:100%;
+    margin:auto;
+    margin-top:30px;
+    margin-bottom:30px;
+    background-color:#444;
+    -webkit-animation:lane 10s linear reverse infinite;
+    animation:lane 10s linear reverse infinite;
+}
+.road-wrap .lane>div:nth-child(1){height:15px}
+.road-wrap .lane>div:nth-child(2){height:20px}
+.road-wrap .lane>div:nth-child(3){height:30px}
+.road-wrap .lane>div:nth-child(4){height:50px}
+.road-wrap .lane>div:nth-child(5){height:40px}
+.road-wrap .lane>div:nth-child(6){height:50px}
+.road-wrap .lane>div:nth-child(7){height:40px}
+.road-wrap .lane>div:nth-child(8){height:50px}
+.road-wrap .lane>div:nth-child(9){height:30px}
+.road-wrap .lane>div:nth-child(10){height:20px}
+.road-wrap .lane>div:nth-child(11){height:15px}
+
+@-webkit-keyframes lane{
+    0%{
+        -webkit-transform:translateY(320px);
+        transform:translateY(320px);
+    }
+    100%{
+        -webkit-transform:translateY(-160px);
+        transform:translateY(-160px);
+    }
+}
+
+@keyframes lane{
+    0%{
+        -webkit-transform:translateY(320px);
+        transform:translateY(320px) scale(.60,.60);
+    }
+    100%{
+        -webkit-transform:translateY(-160px) scale(.80,.80);
+        transform:translateY(-160px) scale(.80,.80);
+    }
+}
+*/
+
+
+/*
+        <div class="road-wrap">
+            <div class="road">
+                <div class="lane-wrap">
+                    <div class="lane">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>*/
+
+
+
+
+/*taxi picking/leaving a passenger*/
+/*
+<body>
+<div id="axis">
+<div>
+<img class="car" src="https://image.flaticon.com/icons/svg/89/89131.svg"/>
+</div>
+<div>
+<img class="passenger-start" src="https://image.flaticon.com/icons/svg/10/10931.svg"/>
+</div>
+<div>      
+<img class="passenger-stop" src="https://image.flaticon.com/icons/svg/49/49205.svg"/>
+</div>
+</div>  
+</body>
+*/
+
+/*css:
+#axis {
+  margin: 0 auto;
+  margin-top: 100px;
+  text-align: center;
+}
+
+.car {
+  width: 58px;
+  margin-bottom: -69px;
+   Flip the car horizontally 
+  -moz-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  transform: scaleX(-1);
+  -ms-filter: fliph; IE
+  filter: fliph; IE
+   Animation 
+  -webkit-animation: car-animation 10s ease infinite;  Safari 4+ 
+  -moz-animation:    car-animation 10s ease infinite;  Fx 5+ 
+  -o-animation:      car-animation 10s ease infinite;  Opera 12+ 
+  animation:         car-animation 10s ease infinite;  IE 10+, Fx 29+ 
+}
+@-webkit-keyframes car-animation {
+  0%   { opacity: 0; margin-right:  1200px; }
+  40%  { opacity: 1; margin-right:   400px; }
+  75%  { opacity: 1; margin-right:  -650px; }
+  100% { opacity: 0; margin-right: -1200px; }
+}
+@-moz-keyframes car-animation {
+  0%   { opacity: 0; margin-right:  1200px; }
+  40%  { opacity: 1; margin-right:   400px; }
+  75%  { opacity: 1; margin-right:  -650px; }
+  100% { opacity: 0; margin-right: -1200px; }
+}
+@-o-keyframes car-animation {
+  0%   { opacity: 0; margin-right:  1200px; }
+  40%  { opacity: 1; margin-right:   400px; }
+  75%  { opacity: 1; margin-right:  -650px; }
+  100% { opacity: 0; margin-right: -1200px; }
+}
+@keyframes car-animation {
+  0%   { opacity: 0; margin-right:  1200px; }
+  40%  { opacity: 1; margin-right:   400px; }
+  75%  { opacity: 1; margin-right:  -650px; }
+  100% { opacity: 0; margin-right: -1200px; }
+}
+
+
+.passenger-start {
+  width: 30px;
+  margin-bottom: -33px;
+  -webkit-animation: passenger-start-animation 10s ease infinite;  Safari 4+ 
+  -moz-animation:    passenger-start-animation 10s ease infinite;  Fx 5+ 
+  -o-animation:      passenger-start-animation 10s ease infinite;  Opera 12+ 
+  animation:         passenger-start-animation 10s ease infinite;  IE 10+, Fx 29+ 
+}
+@-webkit-keyframes passenger-start-animation {
+  0%   { opacity: 0; margin-right:  400px; }
+  20%  { opacity: 1; margin-right:  400px; }
+  40%  { opacity: 1; margin-right:  400px; }
+  45%  { opacity: 0; margin-right:  400px; }
+  100% { opacity: 0; margin-right:  400px; }
+}
+@-moz-keyframes passenger-start-animation {
+  0%   { opacity: 0; margin-right:  400px; }
+  20%  { opacity: 1; margin-right:  400px; }
+  40%  { opacity: 1; margin-right:  400px; }
+  45%  { opacity: 0; margin-right:  400px; }
+  100% { opacity: 0; margin-right:  400px; }
+}
+@-o-keyframes passenger-start-animation {
+  0%   { opacity: 0; margin-right:  400px; }
+  20%  { opacity: 1; margin-right:  400px; }
+  40%  { opacity: 1; margin-right:  400px; }
+  45%  { opacity: 0; margin-right:  400px; }
+  100% { opacity: 0; margin-right:  400px; }
+}
+@keyframes passenger-start-animation {
+  0%   { opacity: 0; margin-right:  400px; }
+  20%  { opacity: 1; margin-right:  400px; }
+  40%  { opacity: 1; margin-right:  400px; }
+  45%  { opacity: 0; margin-right:  400px; }
+  100% { opacity: 0; margin-right:  400px; }
+}
+
+
+.passenger-stop {
+  width: 30px;
+  margin-bottom: -6px;
+  -webkit-animation: passenger-stop-animation 10s ease infinite;  Safari 4+ 
+  -moz-animation:    passenger-stop-animation 10s ease infinite;  Fx 5+ 
+  -o-animation:      passenger-stop-animation 10s ease infinite;  Opera 12+ 
+  animation:         passenger-stop-animation 10s ease infinite;  IE 10+, Fx 29+ 
+}
+@-webkit-keyframes passenger-stop-animation {
+  0%   { opacity: 0; margin-right: -650px; }
+  68%  { opacity: 0; margin-right: -650px; }
+  75%  { opacity: 1; margin-right: -650px; }
+  80%  { opacity: 1; margin-right: -650px; }
+  100% { opacity: 0; margin-right: -650px; }
+}
+@-moz-keyframes passenger-stop-animation {
+  0%   { opacity: 0; margin-right: -650px; }
+  68%  { opacity: 0; margin-right: -650px; }
+  75%  { opacity: 1; margin-right: -650px; }
+  80%  { opacity: 1; margin-right: -650px; }
+  100% { opacity: 0; margin-right: -650px; }
+}
+@-o-keyframes passenger-stop-animation {
+  0%   { opacity: 0; margin-right: -650px; }
+  68%  { opacity: 0; margin-right: -650px; }
+  75%  { opacity: 1; margin-right: -650px; }
+  80%  { opacity: 1; margin-right: -650px; }
+  100% { opacity: 0; margin-right: -650px; }
+}
+@keyframes passenger-stop-animation {
+  0%   { opacity: 0; margin-right: -650px; }
+  68%  { opacity: 0; margin-right: -650px; }
+  75%  { opacity: 1; margin-right: -650px; }
+  80%  { opacity: 1; margin-right: -650px; }
+  100% { opacity: 0; margin-right: -650px; }
+}
+*/

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MovimentacaoEditDlg" widgetVar="MovimentacaoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditMovimentacaoTitle}" closeOnEscape="true">
+
+            <h:form id="MovimentacaoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{movimentacaoController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditMovimentacaoLabel_idMovimentacao}" for="idMovimentacao" />
+                        <h:panelGroup>
+                            <h:outputText id="idMovimentacao" value="#{movimentacaoController.selected.idMovimentacao}" />
+                            <p:tooltip for="idMovimentacao" value="#{movimentacaoController.getComponentMessages('idMovimentacao', mqpBundle.EditMovimentacaoHelpText_idMovimentacao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditMovimentacaoLabel_nomeMovimentacao}" for="nomeMovimentacao" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeMovimentacao" value="#{movimentacaoController.selected.nomeMovimentacao}" title="#{mqpBundle.EditMovimentacaoTitle_nomeMovimentacao}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeMovimentacao" value="#{movimentacaoController.getComponentMessages('nomeMovimentacao', mqpBundle.EditMovimentacaoHelpText_nomeMovimentacao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditMovimentacaoLabel_descricaoMovimentacao}" for="descricaoMovimentacao" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoMovimentacao" value="#{movimentacaoController.selected.descricaoMovimentacao}" title="#{mqpBundle.EditMovimentacaoTitle_descricaoMovimentacao}" />
+                            <p:tooltip for="descricaoMovimentacao" value="#{movimentacaoController.getComponentMessages('descricaoMovimentacao', mqpBundle.EditMovimentacaoHelpText_descricaoMovimentacao)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{movimentacaoController.save}" value="#{mqpBundle.Save}" update="display,:MovimentacaoListForm:datalist,:MovimentacaoListForm:MovimentacaoDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MovimentacaoEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('MovimentacaoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

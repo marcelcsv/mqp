@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SituacaoViewDlg" widgetVar="SituacaoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewSituacaoTitle}" closeOnEscape="true">
+
+            <h:form id="SituacaoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{situacaoController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewSituacaoLabel_idSituacao}"/>
+                        <h:outputText value="#{situacaoController.selected.idSituacao}" title="#{mqpBundle.ViewSituacaoTitle_idSituacao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewSituacaoLabel_nomeSituacao}"/>
+                        <h:outputText value="#{situacaoController.selected.nomeSituacao}" title="#{mqpBundle.ViewSituacaoTitle_nomeSituacao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewSituacaoLabel_descricaoSituacao}"/>
+                        <h:outputText value="#{situacaoController.selected.descricaoSituacao}" title="#{mqpBundle.ViewSituacaoTitle_descricaoSituacao}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('SituacaoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MqpInitCreateDlg" widgetVar="MqpInitCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateMqpInitTitle}" closeOnEscape="true">
+
+            <h:form id="MqpInitCreateForm">
+
+                <h:panelGroup id="display" rendered="#{mqpInitController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateMqpInitLabel_matrMqp}" for="matrMqp" />
+                        <h:panelGroup>
+                            <p:selectOneMenu autoWidth="true" id="matrMqp" value="#{mqpInitController.selected.matrMqp}" required="true" requiredMessage="#{mqpBundle.CreateMqpInitRequiredMessage_matrMqp}" dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matrMqpItem"
+                                               itemValue="#{matrMqpItem}"
+                                               itemLabel="#{matrMqpItem.matricula} - #{matrMqpItem.nome}"
+                                               />
+                                <p:ajax event="valueChange" update=":growl"  />
+                            </p:selectOneMenu>
+                            <p:tooltip for="matrMqp" value="#{mqpInitController.getComponentMessages('matrMqp', mqpBundle.CreateMqpInitHelpText_matrMqp)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateMqpInitLabel_movimentacao}" for="movimentacao" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="movimentacao" value="#{mqpInitController.selected.movimentacao}" required="true" requiredMessage="#{mqpBundle.CreateMqpInitRequiredMessage_movimentacao}" converter="movimentacaoConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{movimentacaoController.items}"
+                                               var="movimentacaoItem"
+                                               itemValue="#{movimentacaoItem}"
+                                               itemLabel="#{movimentacaoItem.nomeMovimentacao}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:tooltip for="movimentacao" value="#{mqpInitController.getComponentMessages('movimentacao', mqpBundle.CreateMqpInitHelpText_movimentacao)}"/>
+                        </h:panelGroup>                        
+
+                        <p:outputLabel value="#{mqpBundle.CreateMqpInitLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:inputText id="status" value="Inicial" readonly="true" >
+                                <p:tooltip for="status" value="#{mqpInitController.getComponentMessages('status', mqpBundle.CreateMqpInitHelpText_status)}"/>
+                            </p:inputText>
+                        </h:panelGroup>                       
+
+                        <p:outputLabel value="#{mqpBundle.CreateMqpInitLabel_matrSolicitante}" for="matrSolicitante" />
+                        <h:panelGroup>
+                            <p:inputText id="matrSolicitante" value="#{chave} - #{nomeReduzido}" readonly="true" />
+                            <p:tooltip for="matrSolicitante" value="#{mqpInitController.getComponentMessages('matrSolicitante', mqpBundle.CreateMqpInitHelpText_matrSolicitante)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateMqpInitLabel_dtref}" for="dtref" />
+                        <h:panelGroup>
+                            <p:calendar id="dtref" pattern="dd/MM/yyyy HH:mm:ss" value="#{mqpInitController.currentDate}" locale="pt_BR" title="#{mqpBundle.CreateMqpInitTitle_dtref}" disabled="true"/>
+                            <p:tooltip for="dtref" value="#{mqpInitController.getComponentMessages('dtref', mqpBundle.CreateMqpInitHelpText_dtref)}"/>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{mqpInitController.saveNew}" value="#{mqpBundle.Save}" update="display,:MqpInitListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MqpInitCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('MqpInitCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

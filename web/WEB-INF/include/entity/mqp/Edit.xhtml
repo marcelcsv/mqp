@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MqpEditDlg" widgetVar="MqpEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditMqpTitle}" closeOnEscape="true">
+
+            <h:form id="MqpEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="3" columnClasses="column" rendered="#{mqpController.selected != null}">
+
+                        <h:outputLabel value="#{mqpBundle.EditMqpLabel_id}" for="id" />
+                        <h:panelGroup>
+                            <h:outputText id="id" value="#{mqpController.selected.id}" />
+                            <p:tooltip for="id" value="#{mqpController.getComponentMessages('id', mqpBundle.EditMqpHelpText_id)}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <h:outputText id="matricula" value="#{mqpController.selected.matricula.matricula} - #{mqpController.selected.matricula.nome}"/>
+                            <p:tooltip for="matricula" value="#{mqpController.getComponentMessages('matricula', mqpBundle.EditMqpHelpText_matricula)}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_prefixo}" for="prefixo" />
+                        <h:panelGroup>
+                            <h:outputText id="prefixo" value="#{mqpController.selected.prefixo.prefixo} - #{mqpController.selected.prefixo.nomePrefixo}"/>
+                            <p:tooltip for="prefixo" value="#{mqpController.getComponentMessages('prefixo', mqpBundle.EditMqpHelpText_prefixo)}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{mqpController.selected.status}" required="true" requiredMessage="#{mqpBundle.EditMqpRequiredMessage_status}" converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{mqpController.getComponentMessages('status', mqpBundle.EditMqpHelpText_status)}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_movimentacao}" for="movimentacao" />
+                        <h:panelGroup>
+                            <h:outputText id="movimentacao" value="#{mqpController.selected.movimentacao.nomeMovimentacao}"/>
+                            <p:tooltip for="movimentacao" value="#{mqpController.getComponentMessages('movimentacao', mqpBundle.EditMqpHelpText_movimentacao)}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_insercao}" for="insercao" />
+                        <h:panelGroup>
+                            <h:outputText id="insercao" value="#{mqpController.selected.insercao.nomeTipoInsercao}"/>
+                            <p:tooltip for="insercao" value="#{mqpController.getComponentMessages('insercao', mqpBundle.EditMqpHelpText_insercao)}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_matriculaSolicitante}" for="matriculaSolicitante" />
+                        <p:inputText id="matriculaSolicitante" value="#{chave} - #{nomeReduzido}" readonly="true" >
+                            <p:tooltip for="matriculaSolicitante" value="#{mqpController.getComponentMessages('matriculaSolicitante', mqpBundle.EditMqpHelpText_matriculaSolicitante)}"/>
+                        </p:inputText>
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_dataHoraRegistro}" for="dataHoraRegistro" />
+                        <h:panelGroup>
+                            <p:calendar id="dataHoraRegistro" pattern="dd/MM/yyyy HH:mm:ss" value="#{mqpController.currentDate}" locale="pt_BR" title="#{mqpBundle.EditMqpTitle_dataHoraRegistro}" disabled="true"/>
+                            <p:tooltip for="dataHoraRegistro" value="#{mqpController.getComponentMessages('dataHoraRegistro', mqpBundle.EditMqpHelpText_dataHoraRegistro)}"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_linhaTelefonica}" for="linhaTelefonica" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="linhaTelefonica" value="#{mqpController.selected.linhaTelefonica}" 
+                                             title="#{mqpBundle.EditMqpTitle_linhaTelefonica}" counter="linhaTelefonicaCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="linhaTelefonicaCounter" />
+                            <p:tooltip for="linhaTelefonica" value="#{mqpController.getComponentMessages('linhaTelefonica', mqpBundle.EditMqpHelpText_linhaTelefonica)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchLinhaTelefonica" disabled="false" value="#{mqpController.valueOnLinhaTelefonica}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdviseMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchLinhaTelefonica" value="#{mqpBundle.EditMqpEmailHelpText_linhaTelefonica}"/>
+                        </p:panel>
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_equipamentos}" for="equipamentos" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="equipamentos" value="#{mqpController.selected.equipamentos}" 
+                                             title="#{mqpBundle.EditMqpTitle_equipamentos}" counter="equipamentosCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="equipamentosCounter" />
+                            <p:tooltip for="equipamentos" value="#{mqpController.getComponentMessages('equipamentos', mqpBundle.EditMqpHelpText_equipamentos)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchEquipamentos" disabled="false" value="#{mqpController.valueOnEquipamentos}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdviseEquipamentosMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchEquipamentos" value="#{mqpBundle.EditMqpEmailHelpText_equipamentos}"/>
+                        </p:panel>
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_servicos}" for="servicos" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="servicos" value="#{mqpController.selected.servicos}" 
+                                             title="#{mqpBundle.EditMqpTitle_servicos}" counter="servicosCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="servicosCounter" />
+                            <p:tooltip for="servicos" value="#{mqpController.getComponentMessages('servicos', mqpBundle.EditMqpHelpText_servicos)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchServicos" disabled="false" value="#{mqpController.valueOnServicos}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdviseServicosMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchServicos" value="#{mqpBundle.EditMqpEmailHelpText_servicos}"/>
+                        </p:panel>
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_tagEstacionamento}" for="tagEstacionamento" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="tagEstacionamento" value="#{mqpController.selected.tagEstacionamento}" 
+                                             title="#{mqpBundle.EditMqpTitle_tagEstacionamento}" counter="tagEstacionamentoCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="tagEstacionamentoCounter" />
+                            <p:tooltip for="tagEstacionamento" value="#{mqpController.getComponentMessages('tagEstacionamento', mqpBundle.EditMqpHelpText_tagEstacionamento)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchTagEstacionamento" disabled="false" value="#{mqpController.valueOnTagEstacionamento}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdviseTagEstacionamentoMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchTagEstacionamento" value="#{mqpBundle.EditMqpEmailHelpText_tagEstacionamento}"/>
+                        </p:panel>
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_cartaoCorporativo}" for="cartaoCorporativo" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="cartaoCorporativo" value="#{mqpController.selected.cartaoCorporativo}" 
+                                             title="#{mqpBundle.EditMqpTitle_cartaoCorporativo}" counter="cartaoCorporativoCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="cartaoCorporativoCounter" />
+                            <p:tooltip for="cartaoCorporativo" value="#{mqpController.getComponentMessages('cartaoCorporativo', mqpBundle.EditMqpHelpText_cartaoCorporativo)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchCartaoCorporativo" disabled="false" value="#{mqpController.valueOnCartaoCorporativo}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdviseCartaoCorporativoMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchCartaoCorporativo" value="#{mqpBundle.EditMqpEmailHelpText_cartaoCorporativo}"/>
+                        </p:panel>
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_gdp}" for="gdp" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="gdp" value="#{mqpController.selected.gdp}" 
+                                             title="#{mqpBundle.EditMqpTitle_gdp}" counter="gdpCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="gdpCounter" />
+                            <p:tooltip for="gdp" value="#{mqpController.getComponentMessages('gdp', mqpBundle.EditMqpHelpText_gdp)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchGdp" disabled="false" value="#{mqpController.valueOnGdp}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdviseGdpMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchGdp" value="#{mqpBundle.EditMqpEmailHelpText_gdp}"/>
+                        </p:panel>
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_treinamento}" for="treinamento" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="treinamento" value="#{mqpController.selected.treinamento}" 
+                                             title="#{mqpBundle.EditMqpTitle_treinamento}" counter="treinamentoCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="treinamentoCounter" />
+                            <p:tooltip for="treinamento" value="#{mqpController.getComponentMessages('treinamento', mqpBundle.EditMqpHelpText_treinamento)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchTreinamento" disabled="false" value="#{mqpController.valueOnTreinamento}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdviseTreinamentoMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchTreinamento" value="#{mqpBundle.EditMqpEmailHelpText_treinamento}"/>
+                        </p:panel>
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_prestacaoDeContas}" for="prestacaoDeContas" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="prestacaoDeContas" value="#{mqpController.selected.prestacaoDeContas}" 
+                                             title="#{mqpBundle.EditMqpTitle_prestacaoDeContas}" counter="prestacaoDeContasCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="prestacaoDeContasCounter" />
+                            <p:tooltip for="prestacaoDeContas" value="#{mqpController.getComponentMessages('prestacaoDeContas', mqpBundle.EditMqpHelpText_prestacaoDeContas)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchPrestacaoDeContas" disabled="false" value="#{mqpController.valueOnPrestacaoDeContas}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdvisePrestacaoDeContasMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchPrestacaoDeContas" value="#{mqpBundle.EditMqpEmailHelpText_prestacaoDeContas}"/>
+                        </p:panel>
+
+                        <p:outputLabel value="#{mqpBundle.EditMqpLabel_cartaoMultibeneficios}" for="cartaoMultibeneficios" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="cartaoMultibeneficios" value="#{mqpController.selected.cartaoMultibeneficios}" 
+                                             title="#{mqpBundle.EditMqpTitle_cartaoMultibeneficios}" counter="cartaoMultibeneficiosCounter" counterTemplate=" {0} caracteres restantes." 
+                                             placeholder="Informe a descrição da Demanda (esse campo é dimensionável)" style="padding: 1px !important; width: 400px !important; height: 20px !important;"/>
+                            <h:outputText id="cartaoMultibeneficiosCounter" />
+                            <p:tooltip for="cartaoMultibeneficios" value="#{mqpController.getComponentMessages('cartaoMultibeneficios', mqpBundle.EditMqpHelpText_cartaoMultibeneficios)}"/>
+                        </h:panelGroup>
+                        <p:panel style="border: none">
+                            <p:inputSwitch id="idSwitchCartaoMultibeneficios" disabled="false" value="#{mqpController.valueOnCartaoMultibeneficios}" onLabel="Sim" offLabel="Não" showLabels="true" style="float: right">
+                                <p:ajax listener="#{mqpController.addEmailAdviseCartaoMultibeneficiosMessage}" update=":growl" />
+                            </p:inputSwitch>
+                            <p:tooltip for="idSwitchCartaoMultibeneficios" value="#{mqpBundle.EditMqpEmailHelpText_cartaoMultibeneficios}"/>
+                        </p:panel>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{mqpController.save}" value="#{mqpBundle.Save}" update="display,:MqpListForm:datalist,:MqpListForm:MqpDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MqpEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('MqpEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+                
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

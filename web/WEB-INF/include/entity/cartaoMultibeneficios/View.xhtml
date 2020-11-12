@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CartaoMultibeneficiosViewDlg" widgetVar="CartaoMultibeneficiosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewCartaoMultibeneficiosTitle}" closeOnEscape="true">
+
+            <h:form id="CartaoMultibeneficiosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cartaoMultibeneficiosController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoMultibeneficiosLabel_idCartaoMultibeneficios}"/>
+                        <h:outputText value="#{cartaoMultibeneficiosController.selected.idCartaoMultibeneficios}" title="#{mqpBundle.ViewCartaoMultibeneficiosTitle_idCartaoMultibeneficios}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoMultibeneficiosLabel_dataDeAdesao}"/>
+                        <h:outputText value="#{cartaoMultibeneficiosController.selected.dataDeAdesao}" title="#{mqpBundle.ViewCartaoMultibeneficiosTitle_dataDeAdesao}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoMultibeneficiosLabel_status}"/>
+                        <h:outputText value="#{cartaoMultibeneficiosController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoMultibeneficiosLabel_matricula}"/>
+                        <h:outputText value="#{cartaoMultibeneficiosController.selected.matricula.matricula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('CartaoMultibeneficiosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

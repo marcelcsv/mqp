@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="OperadoraTelefoneListForm">
+
+        <p:panel header="#{mqpBundle.ListOperadoraTelefoneTitle}">
+            <p:contextMenu id="OperadoraTelefoneDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('OperadoraTelefoneListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('OperadoraTelefoneListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('OperadoraTelefoneListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('OperadoraTelefoneListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.OperadoraTelefoneMenuItem_telefoneCollection}" icon="ui-icon-search"  action="#{operadoraTelefoneController.navigateTelefoneCollection}" disabled="#{operadoraTelefoneController.isTelefoneCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{operadoraTelefoneController.items}"
+                         lazy="false"
+                         rowKey="#{item.idOperadora}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{operadoraTelefoneController.selected}"
+                         filteredValue="#{operadoraTelefoneController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{operadoraTelefoneController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idOperadora}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:OperadoraTelefoneDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:OperadoraTelefoneDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('OperadoraTelefoneListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idOperadora}" filterBy="#{item.idOperadora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListOperadoraTelefoneTitle_idOperadora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idOperadora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nomeOperadora}" filterBy="#{item.nomeOperadora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListOperadoraTelefoneTitle_nomeOperadora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nomeOperadora}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{operadoraTelefoneController.prepareCreate}" update=":OperadoraTelefoneCreateForm" oncomplete="PF('OperadoraTelefoneCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":OperadoraTelefoneViewForm" oncomplete="PF('OperadoraTelefoneViewDialog').show()" disabled="#{empty operadoraTelefoneController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":OperadoraTelefoneEditForm" oncomplete="PF('OperadoraTelefoneEditDialog').show()" disabled="#{empty operadoraTelefoneController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{operadoraTelefoneController.delete}" update=":growl,datalist" disabled="#{empty operadoraTelefoneController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

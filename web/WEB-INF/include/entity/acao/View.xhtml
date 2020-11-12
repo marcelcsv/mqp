@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AcaoViewDlg" widgetVar="AcaoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewAcaoTitle}" closeOnEscape="true">
+
+            <h:form id="AcaoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{acaoController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewAcaoLabel_idAcao}"/>
+                        <h:outputText value="#{acaoController.selected.idAcao}" title="#{mqpBundle.ViewAcaoTitle_idAcao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewAcaoLabel_nomeAcao}"/>
+                        <h:outputText value="#{acaoController.selected.nomeAcao}" title="#{mqpBundle.ViewAcaoTitle_nomeAcao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewAcaoLabel_descricaoAcao}"/>
+                        <h:outputText value="#{acaoController.selected.descricaoAcao}" title="#{mqpBundle.ViewAcaoTitle_descricaoAcao}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('AcaoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

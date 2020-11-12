@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NivelAcessoViewDlg" widgetVar="NivelAcessoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewNivelAcessoTitle}" closeOnEscape="true">
+
+            <h:form id="NivelAcessoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{nivelAcessoController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewNivelAcessoLabel_idNivelAcesso}"/>
+                        <h:outputText value="#{nivelAcessoController.selected.idNivelAcesso}" title="#{mqpBundle.ViewNivelAcessoTitle_idNivelAcesso}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNivelAcessoLabel_nomeAcesso}"/>
+                        <h:outputText value="#{nivelAcessoController.selected.nomeAcesso}" title="#{mqpBundle.ViewNivelAcessoTitle_nomeAcesso}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNivelAcessoLabel_descricaoAcesso}"/>
+                        <h:outputText value="#{nivelAcessoController.selected.descricaoAcesso}" title="#{mqpBundle.ViewNivelAcessoTitle_descricaoAcesso}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNivelAcessoLabel_siglaAcesso}"/>
+                        <h:outputText value="#{nivelAcessoController.selected.siglaAcesso}" title="#{mqpBundle.ViewNivelAcessoTitle_siglaAcesso}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('NivelAcessoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

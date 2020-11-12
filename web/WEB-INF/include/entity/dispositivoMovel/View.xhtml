@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DispositivoMovelViewDlg" widgetVar="DispositivoMovelViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewDispositivoMovelTitle}" closeOnEscape="true">
+
+            <h:form id="DispositivoMovelViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{dispositivoMovelController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewDispositivoMovelLabel_idDispositivoMovel}"/>
+                        <h:outputText value="#{dispositivoMovelController.selected.idDispositivoMovel}" title="#{mqpBundle.ViewDispositivoMovelTitle_idDispositivoMovel}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewDispositivoMovelLabel_nomeDispositivoMovel}"/>
+                        <h:outputText value="#{dispositivoMovelController.selected.nomeDispositivoMovel}" title="#{mqpBundle.ViewDispositivoMovelTitle_nomeDispositivoMovel}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewDispositivoMovelLabel_categoria}"/>
+                        <h:outputText value="#{dispositivoMovelController.selected.categoria.idCategoria}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('DispositivoMovelViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

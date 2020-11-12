@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PrestacaoDeContasViewDlg" widgetVar="PrestacaoDeContasViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewPrestacaoDeContasTitle}" closeOnEscape="true">
+
+            <h:form id="PrestacaoDeContasViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{prestacaoDeContasController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewPrestacaoDeContasLabel_idPrestacaoDeContas}"/>
+                        <h:outputText value="#{prestacaoDeContasController.selected.idPrestacaoDeContas}" title="#{mqpBundle.ViewPrestacaoDeContasTitle_idPrestacaoDeContas}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewPrestacaoDeContasLabel_nomePrestacaoDeContas}"/>
+                        <h:outputText value="#{prestacaoDeContasController.selected.nomePrestacaoDeContas}" title="#{mqpBundle.ViewPrestacaoDeContasTitle_nomePrestacaoDeContas}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewPrestacaoDeContasLabel_descricaoPrestacaoDeContas}"/>
+                        <h:outputText value="#{prestacaoDeContasController.selected.descricaoPrestacaoDeContas}" title="#{mqpBundle.ViewPrestacaoDeContasTitle_descricaoPrestacaoDeContas}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewPrestacaoDeContasLabel_status}"/>
+                        <h:outputText value="#{prestacaoDeContasController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewPrestacaoDeContasLabel_matricula}"/>
+                        <h:outputText value="#{prestacaoDeContasController.selected.matricula.matricula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('PrestacaoDeContasViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

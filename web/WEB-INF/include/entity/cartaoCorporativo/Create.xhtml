@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CartaoCorporativoCreateDlg" widgetVar="CartaoCorporativoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateCartaoCorporativoTitle}" closeOnEscape="true">
+
+            <h:form id="CartaoCorporativoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cartaoCorporativoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateCartaoCorporativoLabel_contaCartao}" for="contaCartao" />
+                        <h:panelGroup>
+                            <p:inputText id="contaCartao" value="#{cartaoCorporativoController.selected.contaCartao}" title="#{mqpBundle.CreateCartaoCorporativoTitle_contaCartao}" required="true" requiredMessage="#{mqpBundle.CreateCartaoCorporativoRequiredMessage_contaCartao}"/>
+                            <p:tooltip for="contaCartao" value="#{cartaoCorporativoController.getComponentMessages('contaCartao', mqpBundle.CreateCartaoCorporativoHelpText_contaCartao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateCartaoCorporativoLabel_plastico}" for="plastico" />
+                        <h:panelGroup>
+                            <p:inputText id="plastico" value="#{cartaoCorporativoController.selected.plastico}" title="#{mqpBundle.CreateCartaoCorporativoTitle_plastico}" size="20" maxlength="20"/>
+                            <p:tooltip for="plastico" value="#{cartaoCorporativoController.getComponentMessages('plastico', mqpBundle.CreateCartaoCorporativoHelpText_plastico)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateCartaoCorporativoLabel_bandeira}" for="bandeira" />
+                        <h:panelGroup>
+                            <p:inputText id="bandeira" value="#{cartaoCorporativoController.selected.bandeira}" title="#{mqpBundle.CreateCartaoCorporativoTitle_bandeira}" size="20" maxlength="20"/>
+                            <p:tooltip for="bandeira" value="#{cartaoCorporativoController.getComponentMessages('bandeira', mqpBundle.CreateCartaoCorporativoHelpText_bandeira)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateCartaoCorporativoLabel_validade}" for="validade" />
+                        <h:panelGroup>
+                            <p:inputText id="validade" value="#{cartaoCorporativoController.selected.validade}" title="#{mqpBundle.CreateCartaoCorporativoTitle_validade}" size="10" maxlength="10"/>
+                            <p:tooltip for="validade" value="#{cartaoCorporativoController.getComponentMessages('validade', mqpBundle.CreateCartaoCorporativoHelpText_validade)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateCartaoCorporativoLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{cartaoCorporativoController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{cartaoCorporativoController.getComponentMessages('status', mqpBundle.CreateCartaoCorporativoHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateCartaoCorporativoLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{cartaoCorporativoController.selected.matricula}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{cartaoCorporativoController.getComponentMessages('matricula', mqpBundle.CreateCartaoCorporativoHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cartaoCorporativoController.saveNew}" value="#{mqpBundle.Save}" update="display,:CartaoCorporativoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CartaoCorporativoCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('CartaoCorporativoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

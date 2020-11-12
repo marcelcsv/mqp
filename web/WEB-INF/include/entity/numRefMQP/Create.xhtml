@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NumRefMQPCreateDlg" widgetVar="NumRefMQPCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateNumRefMQPTitle}" closeOnEscape="true">
+
+            <h:form id="NumRefMQPCreateForm">
+
+                <h:panelGroup id="display" rendered="#{numRefMQPController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_numRefMQPPK_numRef}" for="numRefMQPPK_numRef" />
+                        <h:panelGroup>
+                            <p:inputText id="numRefMQPPK_numRef" value="#{numRefMQPController.selected.numRefMQPPK.numRef}" title="#{mqpBundle.CreateNumRefMQPTitle_numRefMQPPK_numRef}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_numRefMQPPK_numRef}"/>
+                            <p:tooltip for="numRefMQPPK_numRef" value="#{numRefMQPController.getComponentMessages('numRefMQPPK_numRef', mqpBundle.CreateNumRefMQPHelpText_numRefMQPPK_numRef)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_numRefMQPPK_idMQP}" for="numRefMQPPK_idMQP" />
+                        <h:panelGroup>
+                            <p:inputText id="numRefMQPPK_idMQP" value="#{numRefMQPController.selected.numRefMQPPK.idMQP}" title="#{mqpBundle.CreateNumRefMQPTitle_numRefMQPPK_idMQP}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_numRefMQPPK_idMQP}"/>
+                            <p:tooltip for="numRefMQPPK_idMQP" value="#{numRefMQPController.getComponentMessages('numRefMQPPK_idMQP', mqpBundle.CreateNumRefMQPHelpText_numRefMQPPK_idMQP)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_cartaoCorporativo}" for="cartaoCorporativo" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="cartaoCorporativo" value="#{numRefMQPController.selected.cartaoCorporativo}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_cartaoCorporativo}" converter="cartaoCorporativoConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{cartaoCorporativoController.items}"
+                                               var="cartaoCorporativoItem"
+                                               itemValue="#{cartaoCorporativoItem}"
+                                               itemLabel="#{cartaoCorporativoItem.idCartaoCorporativo.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="cartaoCorporativo" value="#{numRefMQPController.getComponentMessages('cartaoCorporativo', mqpBundle.CreateNumRefMQPHelpText_cartaoCorporativo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_cartaoMultibeneficios}" for="cartaoMultibeneficios" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="cartaoMultibeneficios" value="#{numRefMQPController.selected.cartaoMultibeneficios}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_cartaoMultibeneficios}" converter="cartaoMultibeneficiosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{cartaoMultibeneficiosController.items}"
+                                               var="cartaoMultibeneficiosItem"
+                                               itemValue="#{cartaoMultibeneficiosItem}"
+                                               itemLabel="#{cartaoMultibeneficiosItem.idCartaoMultibeneficios.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="cartaoMultibeneficios" value="#{numRefMQPController.getComponentMessages('cartaoMultibeneficios', mqpBundle.CreateNumRefMQPHelpText_cartaoMultibeneficios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_categoria}" for="categoria" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="categoria" value="#{numRefMQPController.selected.categoria}"  converter="categoriasConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{categoriasController.items}"
+                                               var="categoriaItem"
+                                               itemValue="#{categoriaItem}"
+                                               itemLabel="#{categoriaItem.descricaoCategoria.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="categoria" value="#{numRefMQPController.getComponentMessages('categoria', mqpBundle.CreateNumRefMQPHelpText_categoria)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_equipamentos}" for="equipamentos" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="equipamentos" value="#{numRefMQPController.selected.equipamentos}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_equipamentos}" converter="equipamentosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{equipamentosController.items}"
+                                               var="equipamentosItem"
+                                               itemValue="#{equipamentosItem}"
+                                               itemLabel="#{equipamentosItem.descricaoEquipamento.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="equipamentos" value="#{numRefMQPController.getComponentMessages('equipamentos', mqpBundle.CreateNumRefMQPHelpText_equipamentos)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_gdp}" for="gdp" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="gdp" value="#{numRefMQPController.selected.gdp}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_gdp}" converter="gdpConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{gdpController.items}"
+                                               var="gdpItem"
+                                               itemValue="#{gdpItem}"
+                                               itemLabel="#{gdpItem.descricaoGDP.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="gdp" value="#{numRefMQPController.getComponentMessages('gdp', mqpBundle.CreateNumRefMQPHelpText_gdp)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_prestacaoDeContas}" for="prestacaoDeContas" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="prestacaoDeContas" value="#{numRefMQPController.selected.prestacaoDeContas}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_prestacaoDeContas}" converter="prestacaoDeContasConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{prestacaoDeContasController.items}"
+                                               var="prestacaoDeContasItem"
+                                               itemValue="#{prestacaoDeContasItem}"
+                                               itemLabel="#{prestacaoDeContasItem.descricaoPrestacaoDeContas.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="prestacaoDeContas" value="#{numRefMQPController.getComponentMessages('prestacaoDeContas', mqpBundle.CreateNumRefMQPHelpText_prestacaoDeContas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_servicos}" for="servicos" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="servicos" value="#{numRefMQPController.selected.servicos}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_servicos}" converter="servicosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{servicosController.items}"
+                                               var="servicosItem"
+                                               itemValue="#{servicosItem}"
+                                               itemLabel="#{servicosItem.descricaoServico.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="servicos" value="#{numRefMQPController.getComponentMessages('servicos', mqpBundle.CreateNumRefMQPHelpText_servicos)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_tagEstacionamento}" for="tagEstacionamento" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tagEstacionamento" value="#{numRefMQPController.selected.tagEstacionamento}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_tagEstacionamento}" converter="tagEstacionamentoConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tagEstacionamentoController.items}"
+                                               var="tagEstacionamentoItem"
+                                               itemValue="#{tagEstacionamentoItem}"
+                                               itemLabel="#{tagEstacionamentoItem.tag.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tagEstacionamento" value="#{numRefMQPController.getComponentMessages('tagEstacionamento', mqpBundle.CreateNumRefMQPHelpText_tagEstacionamento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_telefone}" for="telefone" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="telefone" value="#{numRefMQPController.selected.telefone}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_telefone}" converter="telefoneConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{telefoneController.items}"
+                                               var="telefoneItem"
+                                               itemValue="#{telefoneItem}"
+                                               itemLabel="#{telefoneItem.telefone.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="telefone" value="#{numRefMQPController.getComponentMessages('telefone', mqpBundle.CreateNumRefMQPHelpText_telefone)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateNumRefMQPLabel_treinamentos}" for="treinamentos" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="treinamentos" value="#{numRefMQPController.selected.treinamentos}" required="true" requiredMessage="#{mqpBundle.CreateNumRefMQPRequiredMessage_treinamentos}" converter="treinamentosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{treinamentosController.items}"
+                                               var="treinamentosItem"
+                                               itemValue="#{treinamentosItem}"
+                                               itemLabel="#{treinamentosItem.idTreinamento.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="treinamentos" value="#{numRefMQPController.getComponentMessages('treinamentos', mqpBundle.CreateNumRefMQPHelpText_treinamentos)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{numRefMQPController.saveNew}" value="#{mqpBundle.Save}" update="display,:NumRefMQPListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('NumRefMQPCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('NumRefMQPCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

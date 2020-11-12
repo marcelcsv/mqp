@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TreinamentosCreateDlg" widgetVar="TreinamentosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateTreinamentosTitle}" closeOnEscape="true">
+
+            <h:form id="TreinamentosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{treinamentosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateTreinamentosLabel_nomeTreinamento}" for="nomeTreinamento" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeTreinamento" value="#{treinamentosController.selected.nomeTreinamento}" title="#{mqpBundle.CreateTreinamentosTitle_nomeTreinamento}" required="true" requiredMessage="#{mqpBundle.CreateTreinamentosRequiredMessage_nomeTreinamento}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeTreinamento" value="#{treinamentosController.getComponentMessages('nomeTreinamento', mqpBundle.CreateTreinamentosHelpText_nomeTreinamento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTreinamentosLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{treinamentosController.selected.status}" required="true" requiredMessage="#{mqpBundle.CreateTreinamentosRequiredMessage_status}" converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{treinamentosController.getComponentMessages('status', mqpBundle.CreateTreinamentosHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTreinamentosLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{treinamentosController.selected.matricula}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{treinamentosController.getComponentMessages('matricula', mqpBundle.CreateTreinamentosHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{treinamentosController.saveNew}" value="#{mqpBundle.Save}" update="display,:TreinamentosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TreinamentosCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('TreinamentosCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

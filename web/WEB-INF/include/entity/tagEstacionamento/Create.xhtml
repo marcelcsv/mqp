@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TagEstacionamentoCreateDlg" widgetVar="TagEstacionamentoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateTagEstacionamentoTitle}" closeOnEscape="true">
+
+            <h:form id="TagEstacionamentoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tagEstacionamentoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateTagEstacionamentoLabel_tag}" for="tag" />
+                        <h:panelGroup>
+                            <p:inputText id="tag" value="#{tagEstacionamentoController.selected.tag}" title="#{mqpBundle.CreateTagEstacionamentoTitle_tag}" required="true" requiredMessage="#{mqpBundle.CreateTagEstacionamentoRequiredMessage_tag}"/>
+                            <p:tooltip for="tag" value="#{tagEstacionamentoController.getComponentMessages('tag', mqpBundle.CreateTagEstacionamentoHelpText_tag)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTagEstacionamentoLabel_nome}" for="nome" />
+                        <h:panelGroup>
+                            <p:inputText id="nome" value="#{tagEstacionamentoController.selected.nome}" title="#{mqpBundle.CreateTagEstacionamentoTitle_nome}" size="100" maxlength="100"/>
+                            <p:tooltip for="nome" value="#{tagEstacionamentoController.getComponentMessages('nome', mqpBundle.CreateTagEstacionamentoHelpText_nome)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTagEstacionamentoLabel_cpf}" for="cpf" />
+                        <h:panelGroup>
+                            <p:inputText id="cpf" value="#{tagEstacionamentoController.selected.cpf}" title="#{mqpBundle.CreateTagEstacionamentoTitle_cpf}" size="14" maxlength="14"/>
+                            <p:tooltip for="cpf" value="#{tagEstacionamentoController.getComponentMessages('cpf', mqpBundle.CreateTagEstacionamentoHelpText_cpf)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTagEstacionamentoLabel_veiculo}" for="veiculo" />
+                        <h:panelGroup>
+                            <p:inputText id="veiculo" value="#{tagEstacionamentoController.selected.veiculo}" title="#{mqpBundle.CreateTagEstacionamentoTitle_veiculo}" size="100" maxlength="100"/>
+                            <p:tooltip for="veiculo" value="#{tagEstacionamentoController.getComponentMessages('veiculo', mqpBundle.CreateTagEstacionamentoHelpText_veiculo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTagEstacionamentoLabel_placa}" for="placa" />
+                        <h:panelGroup>
+                            <p:inputText id="placa" value="#{tagEstacionamentoController.selected.placa}" title="#{mqpBundle.CreateTagEstacionamentoTitle_placa}" size="20" maxlength="20"/>
+                            <p:tooltip for="placa" value="#{tagEstacionamentoController.getComponentMessages('placa', mqpBundle.CreateTagEstacionamentoHelpText_placa)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTagEstacionamentoLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{tagEstacionamentoController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{tagEstacionamentoController.getComponentMessages('status', mqpBundle.CreateTagEstacionamentoHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTagEstacionamentoLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{tagEstacionamentoController.selected.matricula}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{tagEstacionamentoController.getComponentMessages('matricula', mqpBundle.CreateTagEstacionamentoHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tagEstacionamentoController.saveNew}" value="#{mqpBundle.Save}" update="display,:TagEstacionamentoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TagEstacionamentoCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('TagEstacionamentoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoInsercaoCreateDlg" widgetVar="TipoInsercaoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateTipoInsercaoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoInsercaoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoInsercaoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateTipoInsercaoLabel_nomeTipoInsercao}" for="nomeTipoInsercao" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeTipoInsercao" value="#{tipoInsercaoController.selected.nomeTipoInsercao}" title="#{mqpBundle.CreateTipoInsercaoTitle_nomeTipoInsercao}" required="true" requiredMessage="#{mqpBundle.CreateTipoInsercaoRequiredMessage_nomeTipoInsercao}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeTipoInsercao" value="#{tipoInsercaoController.getComponentMessages('nomeTipoInsercao', mqpBundle.CreateTipoInsercaoHelpText_nomeTipoInsercao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTipoInsercaoLabel_descricaoTipoInsercao}" for="descricaoTipoInsercao" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoTipoInsercao" value="#{tipoInsercaoController.selected.descricaoTipoInsercao}" title="#{mqpBundle.CreateTipoInsercaoTitle_descricaoTipoInsercao}" />
+                            <p:tooltip for="descricaoTipoInsercao" value="#{tipoInsercaoController.getComponentMessages('descricaoTipoInsercao', mqpBundle.CreateTipoInsercaoHelpText_descricaoTipoInsercao)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoInsercaoController.saveNew}" value="#{mqpBundle.Save}" update="display,:TipoInsercaoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoInsercaoCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('TipoInsercaoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

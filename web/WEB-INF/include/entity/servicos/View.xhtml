@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ServicosViewDlg" widgetVar="ServicosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewServicosTitle}" closeOnEscape="true">
+
+            <h:form id="ServicosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{servicosController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewServicosLabel_idServico}"/>
+                        <h:outputText value="#{servicosController.selected.idServico}" title="#{mqpBundle.ViewServicosTitle_idServico}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewServicosLabel_nomeServico}"/>
+                        <h:outputText value="#{servicosController.selected.nomeServico}" title="#{mqpBundle.ViewServicosTitle_nomeServico}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewServicosLabel_descricaoServico}"/>
+                        <h:outputText value="#{servicosController.selected.descricaoServico}" title="#{mqpBundle.ViewServicosTitle_descricaoServico}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewServicosLabel_status}"/>
+                        <h:outputText value="#{servicosController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewServicosLabel_matricula}"/>
+                        <h:outputText value="#{servicosController.selected.matricula.matricula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('ServicosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

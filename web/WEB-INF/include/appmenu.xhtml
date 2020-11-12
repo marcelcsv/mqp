@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar style="height: 80px" styleClass="background-image">
+                <p:menuitem value="#{mqpBundle.Home}" outcome="/index" icon="fa fa-home fa-lg"/>
+                <p:submenu label="&nbsp;#{mqpBundle.Maintenance}" icon="fa fa-list fa-lg" >
+                    <p:menuitem value="#{mqpBundle.MqpInitHeading}" outcome="/app/mqpInit/index" icon="fa fa-compress fa-lg" />
+                    <p:menuitem value="#{mqpBundle.MqpHeading}" outcome="/app/mqp/index" icon="fa fa-gear fa-lg" />
+                    <p:menuitem value="&nbsp;#{mqpBundle.EmailHeading}" outcome="/app/email/index" icon="fa fa-envelope fa-lg" />
+                    <p:separator />
+                    <p:menuitem value="#{mqpBundle.AcaoHeading}" outcome="/app/acao/index" />
+                    <p:menuitem value="#{mqpBundle.CartaoCorporativoHeading}" outcome="/app/cartaoCorporativo/index" />
+                    <p:menuitem value="#{mqpBundle.CartaoMultibeneficiosHeading}" outcome="/app/cartaoMultibeneficios/index" />
+                    <p:menuitem value="#{mqpBundle.CategoriaDispositivoHeading}" outcome="/app/categoriaDispositivo/index" />
+                    <p:menuitem value="#{mqpBundle.CategoriasHeading}" outcome="/app/categorias/index" />
+                    <p:menuitem value="#{mqpBundle.DispositivoMovelHeading}" outcome="/app/dispositivoMovel/index" />
+                    <p:menuitem value="#{mqpBundle.EquipamentosHeading}" outcome="/app/equipamentos/index" />
+                    <p:menuitem value="#{mqpBundle.GdpHeading}" outcome="/app/gdp/index" />
+                    <p:menuitem value="#{mqpBundle.JurisdicionadasHeading}" outcome="/app/jurisdicionadas/index" />
+                    <p:menuitem value="#{mqpBundle.MovimentacaoHeading}" outcome="/app/movimentacao/index" />                    
+                    <p:menuitem value="#{mqpBundle.NivelAcessoHeading}" outcome="/app/nivelAcesso/index" />
+                    <p:menuitem value="#{mqpBundle.NumRefMQPHeading}" outcome="/app/numRefMQP/index" />
+                    <p:menuitem value="#{mqpBundle.OperadoraTelefoneHeading}" outcome="/app/operadoraTelefone/index" />
+                    <p:menuitem value="#{mqpBundle.PrefixosHeading}" outcome="/app/prefixos/index" />
+                    <p:menuitem value="#{mqpBundle.PrestacaoDeContasHeading}" outcome="/app/prestacaoDeContas/index" />
+                    <p:menuitem value="#{mqpBundle.ServicosHeading}" outcome="/app/servicos/index" />
+                    <p:menuitem value="#{mqpBundle.SituacaoHeading}" outcome="/app/situacao/index" />
+                    <p:menuitem value="#{mqpBundle.StatusHeading}" outcome="/app/status/index" />
+                    <p:menuitem value="#{mqpBundle.TagEstacionamentoHeading}" outcome="/app/tagEstacionamento/index" />
+                    <p:menuitem value="#{mqpBundle.TelefoneHeading}" outcome="/app/telefone/index" />
+                    <p:menuitem value="#{mqpBundle.TipoInsercaoHeading}" outcome="/app/tipoInsercao/index" />
+                    <p:menuitem value="#{mqpBundle.TipoLinhaHeading}" outcome="/app/tipoLinha/index" />
+                    <p:menuitem value="#{mqpBundle.TipoMovimentoPendenteHeading}" outcome="/app/tipoMovimentoPendente/index" />
+                    <p:menuitem value="#{mqpBundle.TreinamentosHeading}" outcome="/app/treinamentos/index" />
+                    <p:menuitem value="#{mqpBundle.UorPosHeading}" outcome="/app/uorPos/index" />
+                </p:submenu>
+
+                <f:facet name="options">
+                    <div id="header">
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr style="height: 60px">
+                                    <th width="60px" rowspan="3"></th>
+                                    <th valign="center" rowspan="3"></th>
+                                    <th>
+                                        <br />
+                                        <span style="margin-right: 0px; top: 0px; float: right"><font size="1px">Olá #{nomeReduzido} #{chave}&nbsp;-&nbsp;#{codDependencia}&nbsp;</font></span>
+                                        <br />
+                                        <span style="float: right;"><font size="1px">#{uorPos}-#{nomeUorPos}&nbsp;</font></span>
+                                        <br />
+                                        <span id="online" style="color: black; font-size: 10px; margin-right: 0px; top: 0px; float: right">Usuários logados: #{usuariosLogados.usuariosLogados}&nbsp;</span>
+                                        <p:outputLabel id="online1" value="Seu nivel de acesso: #{nivelAcesso}&nbsp;|&nbsp; " style="font-size: 10px!important; color: darkblue;float: right;"/>
+                                        <p:tooltip for="online1" showEffect="clip" hideEffect="explode" position="bottom">
+                                            <h:panelGroup>
+                                                <h:outputText value="Descrição dos Níveis de Acesso"  />
+                                                <br /> <br /><br />
+                                                <h:outputText value="Nivel 1: Tem acesso total."  />
+                                                <br /><br />
+                                                <h:outputText value="Nivel 2: Funcionários lotados nas GEADEs tem acesso aos dados analíticos"  /><br />
+                                                <h:outputText value="do seu Prefixo, Prefixos atendidos pela respectiva GEADE e dados consolidados BB." />
+                                                <br /><br />
+                                                <h:outputText value="Nivel 3: Diretor, Gerente Geral, Gerente Executivo e Gerente de Solução tem acesso" /><br />
+                                                <h:outputText value="aos dados analíticos do seu respectivo Prefixo, Prefixos jurisdicionados e dados" /><br />
+                                                <h:outputText value="consolidados BB."  />
+                                                <br /><br />
+                                                <h:outputText value="Nivel 4: Gerente de Equipe, Gerente de Grupo, Gerente de Relacionamento e demais" /><br />
+                                                <h:outputText value="Gerentes tem acesso aos próprios dados analíticos e aos dados analíticos dos" /><br />
+                                                <h:outputText value="funcionários lotados em sua UOR de trabalho."  />
+                                                <br /><br /> 
+                                                <h:outputText value="Nivel 5: Acesso aos seus próprios dados."  />
+                                            </h:panelGroup>
+                                        </p:tooltip>
+                                    </th>
+                                    <th><br /><p:graphicImage style="width: 42px; height: 42px; border-radius: 5px 5px 5px 5px" url="http://connections.bb.com.br/profiles/photo.do?uid=#{chave}" />&nbsp;</th>
+                                    <th><br /><p:button id="buttonSair" href="https://geadesp.intranet.bb.com.br/mqp/servlet/br.com.bb.customizacao.servlets.ServletEncerraSessao?paginaInicialSistema=https://geadesp.intranet.bb.com.br/mqp" style="width: 30px; height: auto;" icon="fa fa-power-off fa-lg" disableClientWindow="true"/></th>
+                                    <p:tooltip for="buttonSair" showEffect="clip" position="bottom" value="Clique para sair..." />
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+
+        <div class="scene">
+            <svg viewBox="0 0 100 100" style="height: 50%; width: 50%; " width="47px" height="47px"><g class="ldl-scale" style="transform-origin: 50% 50%; transform: rotate(0deg) scale(1, 1);"><g class="ldl-ani" style="transform-origin: 50px 50px; transform: rotate(0deg); animation: 2.85714s linear 0s infinite alternate forwards running spin-094bfadb-687f-4408-8d45-b63d1c6fcce7;"><g class="ldl-layer"><g class="ldl-ani" style="transform-origin: 50px 50px;"><path fill="#a0c8d7" d="M33.989 13.378l-7.406-3.937s-.172 4.639-.305 8.394a40.037 40.037 0 0 0-10.107 10.833l13.06 7.541c4.313-6.479 11.456-10.604 19.21-11.094V10.03a39.882 39.882 0 0 0-14.452 3.348z" style="fill: rgb(147, 219, 233);"></path></g></g><g class="ldl-layer"><g class="ldl-ani" style="transform-origin: 50px 50px;"><path fill="#849b87" d="M27.67 38.907l-13.061-7.541a39.994 39.994 0 0 0-4.352 14.202L3.167 50s3.911 2.456 7.092 4.445a39.962 39.962 0 0 0 4.351 14.188l13.061-7.541a24.928 24.928 0 0 1-2.606-11.093c0-3.853.897-7.656 2.605-11.092z" style="fill: rgb(217, 219, 238);"></path></g></g><g class="ldl-layer"><g class="ldl-ani" style="transform-origin: 50px 50px;"><path fill="#abbd81" d="M48.442 74.885c-7.754-.49-14.897-4.615-19.21-11.094l-13.06 7.541A40.05 40.05 0 0 0 26.29 82.173l.294 8.386s4.101-2.169 7.418-3.931a39.863 39.863 0 0 0 14.44 3.342V74.885z" style="fill: rgb(59, 67, 104);"></path></g></g><g class="ldl-layer"><g class="ldl-ani" style="transform-origin: 50px 50px;"><path fill="#f8b26a" d="M83.829 71.332l-13.06-7.541c-4.313 6.479-11.456 10.604-19.21 11.094v15.084a39.87 39.87 0 0 0 14.453-3.347l7.406 3.937s.172-4.639.305-8.394a40.065 40.065 0 0 0 10.106-10.833z" style="fill: rgb(104, 156, 197);"></path></g></g><g class="ldl-layer"><g class="ldl-ani" style="transform-origin: 50px 50px;"><path fill="#f47e60" d="M96.833 50s-3.911-2.456-7.092-4.445a39.962 39.962 0 0 0-4.351-14.188l-13.06 7.54A24.928 24.928 0 0 1 74.936 50c0 3.853-.897 7.657-2.606 11.093l13.061 7.541a39.996 39.996 0 0 0 4.352-14.201L96.833 50z" style="fill: rgb(94, 111, 163);"></path></g></g><g class="ldl-layer"><g class="ldl-ani" style="transform-origin: 50px 50px;"><path fill="#e15b64" d="M73.71 17.828l-.294-8.387s-4.101 2.169-7.418 3.931a39.884 39.884 0 0 0-14.44-3.342v15.084c7.754.49 14.897 4.615 19.21 11.094l13.06-7.541A40.025 40.025 0 0 0 73.71 17.828z" style="fill: rgb(25, 29, 58);"></path></g></g></g></g>
+            </svg>
+        </div>
+
+        <div id="text">
+            <img src="https://geadesp.intranet.bb.com.br/mqp/resources/img/bblogowhite.png" style="float:left; width: 30px; height: 30px; padding-left: 2px; padding-top: 3px;"/>
+            <font color="#2E3192">#{mqpBundle.AppName}<br /></font>
+        </div>
+
+    </ui:composition>
+
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TagEstacionamentoViewDlg" widgetVar="TagEstacionamentoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewTagEstacionamentoTitle}" closeOnEscape="true">
+
+            <h:form id="TagEstacionamentoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tagEstacionamentoController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewTagEstacionamentoLabel_tag}"/>
+                        <h:outputText value="#{tagEstacionamentoController.selected.tag}" title="#{mqpBundle.ViewTagEstacionamentoTitle_tag}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTagEstacionamentoLabel_nome}"/>
+                        <h:outputText value="#{tagEstacionamentoController.selected.nome}" title="#{mqpBundle.ViewTagEstacionamentoTitle_nome}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTagEstacionamentoLabel_cpf}"/>
+                        <h:outputText value="#{tagEstacionamentoController.selected.cpf}" title="#{mqpBundle.ViewTagEstacionamentoTitle_cpf}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTagEstacionamentoLabel_veiculo}"/>
+                        <h:outputText value="#{tagEstacionamentoController.selected.veiculo}" title="#{mqpBundle.ViewTagEstacionamentoTitle_veiculo}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTagEstacionamentoLabel_placa}"/>
+                        <h:outputText value="#{tagEstacionamentoController.selected.placa}" title="#{mqpBundle.ViewTagEstacionamentoTitle_placa}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTagEstacionamentoLabel_status}"/>
+                        <h:outputText value="#{tagEstacionamentoController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTagEstacionamentoLabel_matricula}"/>
+                        <h:outputText value="#{tagEstacionamentoController.selected.matricula.matricula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('TagEstacionamentoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmailCreateDlg" widgetVar="EmailCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateEmailTitle}" closeOnEscape="true">
+
+            <h:form id="EmailCreateForm">
+
+                <h:panelGroup id="display" rendered="#{emailController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_movimentacao}" for="movimentacao" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="movimentacao" value="#{emailController.selected.movimentacao}"  converter="mqpConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{mqpController.items}"
+                                               var="movimentacaoItem"
+                                               itemValue="#{movimentacaoItem}"
+                                               itemLabel="#{movimentacaoItem.id}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:tooltip for="movimentacao" value="#{emailController.getComponentMessages('movimentacao', mqpBundle.CreateEmailHelpText_movimentacao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{emailController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{emailController.getComponentMessages('status', mqpBundle.CreateEmailHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_destino}" for="destino" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="destino" value="#{emailController.selected.destino}" title="#{mqpBundle.CreateEmailTitle_destino}" />
+                            <p:tooltip for="destino" value="#{emailController.getComponentMessages('destino', mqpBundle.CreateEmailHelpText_destino)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_cc}" for="cc" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="cc" value="#{emailController.selected.cc}" title="#{mqpBundle.CreateEmailTitle_cc}" />
+                            <p:tooltip for="cc" value="#{emailController.getComponentMessages('cc', mqpBundle.CreateEmailHelpText_cc)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_co}" for="co" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="co" value="#{emailController.selected.co}" title="#{mqpBundle.CreateEmailTitle_co}" />
+                            <p:tooltip for="co" value="#{emailController.getComponentMessages('co', mqpBundle.CreateEmailHelpText_co)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_assunto}" for="assunto" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="assunto" value="#{emailController.selected.assunto}" title="#{mqpBundle.CreateEmailTitle_assunto}" />
+                            <p:tooltip for="assunto" value="#{emailController.getComponentMessages('assunto', mqpBundle.CreateEmailHelpText_assunto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_mensagem}" for="mensagem" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="mensagem" value="#{emailController.selected.mensagem}" title="#{mqpBundle.CreateEmailTitle_mensagem}" />
+                            <p:tooltip for="mensagem" value="#{emailController.getComponentMessages('mensagem', mqpBundle.CreateEmailHelpText_mensagem)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_matriculaEnvioManual}" for="matriculaEnvioManual" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matriculaEnvioManual" value="#{emailController.selected.matriculaEnvioManual}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaEnvioManualItem"
+                                               itemValue="#{matriculaEnvioManualItem}"
+                                               itemLabel="#{matriculaEnvioManualItem.matricula} - #{matriculaEnvioManualItem.nome}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:tooltip for="matriculaEnvioManual" value="#{emailController.getComponentMessages('matriculaEnvioManual', mqpBundle.CreateEmailHelpText_matriculaEnvioManual)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEmailLabel_dataEnvio}" for="dataEnvio" />
+                        <h:panelGroup>
+                            <p:calendar id="dataEnvio" pattern="dd/MM/yyyy HH:mm:ss" value="#{emailController.selected.dataEnvio}" title="#{mqpBundle.CreateEmailTitle_dataEnvio}"  showOn="button"/>
+                            <p:tooltip for="dataEnvio" value="#{emailController.getComponentMessages('dataEnvio', mqpBundle.CreateEmailHelpText_dataEnvio)}"/>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{emailController.saveNew}" value="#{mqpBundle.Save}" update="display,:EmailListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmailCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('EmailCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

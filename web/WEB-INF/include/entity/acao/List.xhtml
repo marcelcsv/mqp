@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AcaoListForm">
+
+        <p:panel header="#{mqpBundle.ListAcaoTitle}">
+            <p:contextMenu id="AcaoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('AcaoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('AcaoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('AcaoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('AcaoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.AcaoMenuItem_telefoneCollection}" icon="ui-icon-search"  action="#{acaoController.navigateTelefoneCollection}" disabled="#{acaoController.isTelefoneCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{acaoController.items}"
+                         lazy="false"
+                         rowKey="#{item.idAcao}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{acaoController.selected}"
+                         filteredValue="#{acaoController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{acaoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idAcao}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AcaoDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AcaoDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('AcaoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idAcao}" filterBy="#{item.idAcao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListAcaoTitle_idAcao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idAcao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nomeAcao}" filterBy="#{item.nomeAcao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListAcaoTitle_nomeAcao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nomeAcao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descricaoAcao}" filterBy="#{item.descricaoAcao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListAcaoTitle_descricaoAcao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descricaoAcao}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{acaoController.prepareCreate}" update=":AcaoCreateForm" oncomplete="PF('AcaoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":AcaoViewForm" oncomplete="PF('AcaoViewDialog').show()" disabled="#{empty acaoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":AcaoEditForm" oncomplete="PF('AcaoEditDialog').show()" disabled="#{empty acaoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{acaoController.delete}" update=":growl,datalist" disabled="#{empty acaoController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

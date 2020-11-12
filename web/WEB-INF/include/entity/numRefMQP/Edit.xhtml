@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="NumRefMQPEditDlg" widgetVar="NumRefMQPEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditNumRefMQPTitle}" closeOnEscape="true">
+
+            <h:form id="NumRefMQPEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{numRefMQPController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_numRefMQPPK_numRef}" for="numRefMQPPK_numRef" />
+                        <h:panelGroup>
+                            <h:outputText id="numRefMQPPK_numRef" value="#{numRefMQPController.selected.numRefMQPPK.numRef}" />
+                            <p:tooltip for="numRefMQPPK_numRef" value="#{numRefMQPController.getComponentMessages('numRefMQPPK_numRef', mqpBundle.EditNumRefMQPHelpText_numRefMQPPK_numRef)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_numRefMQPPK_idMQP}" for="numRefMQPPK_idMQP" />
+                        <h:panelGroup>
+                            <h:outputText id="numRefMQPPK_idMQP" value="#{numRefMQPController.selected.numRefMQPPK.idMQP}" />
+                            <p:tooltip for="numRefMQPPK_idMQP" value="#{numRefMQPController.getComponentMessages('numRefMQPPK_idMQP', mqpBundle.EditNumRefMQPHelpText_numRefMQPPK_idMQP)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_cartaoCorporativo}" for="cartaoCorporativo" />
+                        <h:panelGroup>
+                            <h:outputText id="cartaoCorporativo" value="#{numRefMQPController.selected.cartaoCorporativo}" />
+                            <p:tooltip for="cartaoCorporativo" value="#{numRefMQPController.getComponentMessages('cartaoCorporativo', mqpBundle.EditNumRefMQPHelpText_cartaoCorporativo)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_cartaoMultibeneficios}" for="cartaoMultibeneficios" />
+                        <h:panelGroup>
+                            <h:outputText id="cartaoMultibeneficios" value="#{numRefMQPController.selected.cartaoMultibeneficios}" />
+                            <p:tooltip for="cartaoMultibeneficios" value="#{numRefMQPController.getComponentMessages('cartaoMultibeneficios', mqpBundle.EditNumRefMQPHelpText_cartaoMultibeneficios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_categoria}" for="categoria" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="categoria" value="#{numRefMQPController.selected.categoria}"  converter="categoriasConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{categoriasController.items}"
+                                               var="categoriaItem"
+                                               itemValue="#{categoriaItem}"
+                                               itemLabel="#{categoriaItem.descricaoCategoria.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="categoria" value="#{numRefMQPController.getComponentMessages('categoria', mqpBundle.EditNumRefMQPHelpText_categoria)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_equipamentos}" for="equipamentos" />
+                        <h:panelGroup>
+                            <h:outputText id="equipamentos" value="#{numRefMQPController.selected.equipamentos}" />
+                            <p:tooltip for="equipamentos" value="#{numRefMQPController.getComponentMessages('equipamentos', mqpBundle.EditNumRefMQPHelpText_equipamentos)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_gdp}" for="gdp" />
+                        <h:panelGroup>
+                            <h:outputText id="gdp" value="#{numRefMQPController.selected.gdp}" />
+                            <p:tooltip for="gdp" value="#{numRefMQPController.getComponentMessages('gdp', mqpBundle.EditNumRefMQPHelpText_gdp)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_prestacaoDeContas}" for="prestacaoDeContas" />
+                        <h:panelGroup>
+                            <h:outputText id="prestacaoDeContas" value="#{numRefMQPController.selected.prestacaoDeContas}" />
+                            <p:tooltip for="prestacaoDeContas" value="#{numRefMQPController.getComponentMessages('prestacaoDeContas', mqpBundle.EditNumRefMQPHelpText_prestacaoDeContas)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_servicos}" for="servicos" />
+                        <h:panelGroup>
+                            <h:outputText id="servicos" value="#{numRefMQPController.selected.servicos}" />
+                            <p:tooltip for="servicos" value="#{numRefMQPController.getComponentMessages('servicos', mqpBundle.EditNumRefMQPHelpText_servicos)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_tagEstacionamento}" for="tagEstacionamento" />
+                        <h:panelGroup>
+                            <h:outputText id="tagEstacionamento" value="#{numRefMQPController.selected.tagEstacionamento}" />
+                            <p:tooltip for="tagEstacionamento" value="#{numRefMQPController.getComponentMessages('tagEstacionamento', mqpBundle.EditNumRefMQPHelpText_tagEstacionamento)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_telefone}" for="telefone" />
+                        <h:panelGroup>
+                            <h:outputText id="telefone" value="#{numRefMQPController.selected.telefone}" />
+                            <p:tooltip for="telefone" value="#{numRefMQPController.getComponentMessages('telefone', mqpBundle.EditNumRefMQPHelpText_telefone)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNumRefMQPLabel_treinamentos}" for="treinamentos" />
+                        <h:panelGroup>
+                            <h:outputText id="treinamentos" value="#{numRefMQPController.selected.treinamentos}" />
+                            <p:tooltip for="treinamentos" value="#{numRefMQPController.getComponentMessages('treinamentos', mqpBundle.EditNumRefMQPHelpText_treinamentos)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{numRefMQPController.save}" value="#{mqpBundle.Save}" update="display,:NumRefMQPListForm:datalist,:NumRefMQPListForm:NumRefMQPDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('NumRefMQPEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('NumRefMQPEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

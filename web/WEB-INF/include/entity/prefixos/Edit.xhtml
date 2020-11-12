@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PrefixosEditDlg" widgetVar="PrefixosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditPrefixosTitle}" closeOnEscape="true">
+
+            <h:form id="PrefixosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{prefixosController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditPrefixosLabel_prefixo}" for="prefixo" />
+                        <h:panelGroup>
+                            <h:outputText id="prefixo" value="#{prefixosController.selected.prefixo}" />
+                            <p:tooltip for="prefixo" value="#{prefixosController.getComponentMessages('prefixo', mqpBundle.EditPrefixosHelpText_prefixo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditPrefixosLabel_nomePrefixo}" for="nomePrefixo" />
+                        <h:panelGroup>
+                            <p:inputText id="nomePrefixo" value="#{prefixosController.selected.nomePrefixo}" title="#{mqpBundle.EditPrefixosTitle_nomePrefixo}" size="200" maxlength="200"/>
+                            <p:tooltip for="nomePrefixo" value="#{prefixosController.getComponentMessages('nomePrefixo', mqpBundle.EditPrefixosHelpText_nomePrefixo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{prefixosController.save}" value="#{mqpBundle.Save}" update="display,:PrefixosListForm:datalist,:PrefixosListForm:PrefixosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PrefixosEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('PrefixosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

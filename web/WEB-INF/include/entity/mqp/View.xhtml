@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MqpViewDlg" widgetVar="MqpViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewMqpTitle}" closeOnEscape="true">
+
+            <h:form id="MqpViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{mqpController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_id}"/>
+                        <h:outputText value="#{mqpController.selected.id}" title="#{mqpBundle.ViewMqpTitle_id}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_matricula}"/>
+                        <h:outputText value="#{mqpController.selected.matricula.matricula} - #{mqpController.selected.matricula.nome}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_prefixo}"/>
+                        <h:outputText value="#{mqpController.selected.prefixo.prefixo} - #{mqpController.selected.prefixo.nomePrefixo}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_status}"/>
+                        <h:outputText value="#{mqpController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_movimentacao}"/>
+                        <h:outputText value="#{mqpController.selected.movimentacao.nomeMovimentacao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_insercao}"/>
+                        <h:outputText value="#{mqpController.selected.insercao.nomeTipoInsercao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_matriculaSolicitante}"/>
+                        <h:outputText value="#{mqpController.selected.matriculaSolicitante.matricula} - #{mqpController.selected.matriculaSolicitante.nome}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_dataHoraRegistro}"/>
+                        <h:outputText value="#{mqpController.selected.dataHoraRegistro}" title="#{mqpBundle.ViewMqpTitle_dataHoraRegistro}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_linhaTelefonica}"/>
+                        <h:outputText value="#{mqpController.selected.linhaTelefonica}" title="#{mqpBundle.ViewMqpTitle_linhaTelefonica}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_equipamentos}"/>
+                        <h:outputText value="#{mqpController.selected.equipamentos}" title="#{mqpBundle.ViewMqpTitle_equipamentos}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_servicos}"/>
+                        <h:outputText value="#{mqpController.selected.servicos}" title="#{mqpBundle.ViewMqpTitle_servicos}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_tagEstacionamento}"/>
+                        <h:outputText value="#{mqpController.selected.tagEstacionamento}" title="#{mqpBundle.ViewMqpTitle_tagEstacionamento}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_cartaoCorporativo}"/>
+                        <h:outputText value="#{mqpController.selected.cartaoCorporativo}" title="#{mqpBundle.ViewMqpTitle_cartaoCorporativo}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_gdp}"/>
+                        <h:outputText value="#{mqpController.selected.gdp}" title="#{mqpBundle.ViewMqpTitle_gdp}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_treinamento}"/>
+                        <h:outputText value="#{mqpController.selected.treinamento}" title="#{mqpBundle.ViewMqpTitle_treinamento}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_prestacaoDeContas}"/>
+                        <h:outputText value="#{mqpController.selected.prestacaoDeContas}" title="#{mqpBundle.ViewMqpTitle_prestacaoDeContas}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpLabel_cartaoMultibeneficios}"/>
+                        <h:outputText value="#{mqpController.selected.cartaoMultibeneficios}" title="#{mqpBundle.ViewMqpTitle_cartaoMultibeneficios}"/>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('MqpViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

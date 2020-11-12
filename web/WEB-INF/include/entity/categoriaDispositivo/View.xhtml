@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CategoriaDispositivoViewDlg" widgetVar="CategoriaDispositivoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewCategoriaDispositivoTitle}" closeOnEscape="true">
+
+            <h:form id="CategoriaDispositivoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{categoriaDispositivoController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewCategoriaDispositivoLabel_idCategoria}"/>
+                        <h:outputText value="#{categoriaDispositivoController.selected.idCategoria}" title="#{mqpBundle.ViewCategoriaDispositivoTitle_idCategoria}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCategoriaDispositivoLabel_nomeCategoria}"/>
+                        <h:outputText value="#{categoriaDispositivoController.selected.nomeCategoria}" title="#{mqpBundle.ViewCategoriaDispositivoTitle_nomeCategoria}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('CategoriaDispositivoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

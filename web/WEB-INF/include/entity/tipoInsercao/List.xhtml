@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoInsercaoListForm">
+
+        <p:panel header="#{mqpBundle.ListTipoInsercaoTitle}">
+            <p:contextMenu id="TipoInsercaoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('TipoInsercaoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('TipoInsercaoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('TipoInsercaoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('TipoInsercaoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.TipoInsercaoMenuItem_mqpCollection}" icon="ui-icon-search"  action="#{tipoInsercaoController.navigateMqpCollection}" disabled="#{tipoInsercaoController.isMqpCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{tipoInsercaoController.items}"
+                         lazy="false"
+                         rowKey="#{item.idTipoInsercao}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{tipoInsercaoController.selected}"
+                         filteredValue="#{tipoInsercaoController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoInsercaoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idTipoInsercao}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoInsercaoDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoInsercaoDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoInsercaoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTipoInsercao}" filterBy="#{item.idTipoInsercao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTipoInsercaoTitle_idTipoInsercao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoInsercao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nomeTipoInsercao}" filterBy="#{item.nomeTipoInsercao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTipoInsercaoTitle_nomeTipoInsercao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nomeTipoInsercao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descricaoTipoInsercao}" filterBy="#{item.descricaoTipoInsercao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTipoInsercaoTitle_descricaoTipoInsercao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descricaoTipoInsercao}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{tipoInsercaoController.prepareCreate}" update=":TipoInsercaoCreateForm" oncomplete="PF('TipoInsercaoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":TipoInsercaoViewForm" oncomplete="PF('TipoInsercaoViewDialog').show()" disabled="#{empty tipoInsercaoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":TipoInsercaoEditForm" oncomplete="PF('TipoInsercaoEditDialog').show()" disabled="#{empty tipoInsercaoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{tipoInsercaoController.delete}" update=":growl,datalist" disabled="#{empty tipoInsercaoController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

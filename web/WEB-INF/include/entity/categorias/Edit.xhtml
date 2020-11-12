@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CategoriasEditDlg" widgetVar="CategoriasEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditCategoriasTitle}" closeOnEscape="true">
+
+            <h:form id="CategoriasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{categoriasController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditCategoriasLabel_idCategoria}" for="idCategoria" />
+                        <h:panelGroup>
+                            <h:outputText id="idCategoria" value="#{categoriasController.selected.idCategoria}" />
+                            <p:tooltip for="idCategoria" value="#{categoriasController.getComponentMessages('idCategoria', mqpBundle.EditCategoriasHelpText_idCategoria)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditCategoriasLabel_nomeCategoria}" for="nomeCategoria" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeCategoria" value="#{categoriasController.selected.nomeCategoria}" title="#{mqpBundle.EditCategoriasTitle_nomeCategoria}" required="true" requiredMessage="#{mqpBundle.EditCategoriasRequiredMessage_nomeCategoria}" size="200" maxlength="200"/>
+                            <p:tooltip for="nomeCategoria" value="#{categoriasController.getComponentMessages('nomeCategoria', mqpBundle.EditCategoriasHelpText_nomeCategoria)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditCategoriasLabel_descricaoCategoria}" for="descricaoCategoria" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoCategoria" value="#{categoriasController.selected.descricaoCategoria}" title="#{mqpBundle.EditCategoriasTitle_descricaoCategoria}" />
+                            <p:tooltip for="descricaoCategoria" value="#{categoriasController.getComponentMessages('descricaoCategoria', mqpBundle.EditCategoriasHelpText_descricaoCategoria)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{categoriasController.save}" value="#{mqpBundle.Save}" update="display,:CategoriasListForm:datalist,:CategoriasListForm:CategoriasDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CategoriasEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('CategoriasEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

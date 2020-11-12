@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EquipamentosCreateDlg" widgetVar="EquipamentosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateEquipamentosTitle}" closeOnEscape="true">
+
+            <h:form id="EquipamentosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{equipamentosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateEquipamentosLabel_nomeEquipamento}" for="nomeEquipamento" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeEquipamento" value="#{equipamentosController.selected.nomeEquipamento}" title="#{mqpBundle.CreateEquipamentosTitle_nomeEquipamento}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeEquipamento" value="#{equipamentosController.getComponentMessages('nomeEquipamento', mqpBundle.CreateEquipamentosHelpText_nomeEquipamento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEquipamentosLabel_descricaoEquipamento}" for="descricaoEquipamento" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoEquipamento" value="#{equipamentosController.selected.descricaoEquipamento}" title="#{mqpBundle.CreateEquipamentosTitle_descricaoEquipamento}" />
+                            <p:tooltip for="descricaoEquipamento" value="#{equipamentosController.getComponentMessages('descricaoEquipamento', mqpBundle.CreateEquipamentosHelpText_descricaoEquipamento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEquipamentosLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{equipamentosController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{equipamentosController.getComponentMessages('status', mqpBundle.CreateEquipamentosHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateEquipamentosLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{equipamentosController.selected.matricula}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{equipamentosController.getComponentMessages('matricula', mqpBundle.CreateEquipamentosHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{equipamentosController.saveNew}" value="#{mqpBundle.Save}" update="display,:EquipamentosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EquipamentosCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('EquipamentosCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

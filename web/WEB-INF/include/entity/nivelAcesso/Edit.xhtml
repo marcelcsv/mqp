@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="NivelAcessoEditDlg" widgetVar="NivelAcessoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditNivelAcessoTitle}" closeOnEscape="true">
+
+            <h:form id="NivelAcessoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{nivelAcessoController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditNivelAcessoLabel_idNivelAcesso}" for="idNivelAcesso" />
+                        <h:panelGroup>
+                            <h:outputText id="idNivelAcesso" value="#{nivelAcessoController.selected.idNivelAcesso}" />
+                            <p:tooltip for="idNivelAcesso" value="#{nivelAcessoController.getComponentMessages('idNivelAcesso', mqpBundle.EditNivelAcessoHelpText_idNivelAcesso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditNivelAcessoLabel_nomeAcesso}" for="nomeAcesso" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeAcesso" value="#{nivelAcessoController.selected.nomeAcesso}" title="#{mqpBundle.EditNivelAcessoTitle_nomeAcesso}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeAcesso" value="#{nivelAcessoController.getComponentMessages('nomeAcesso', mqpBundle.EditNivelAcessoHelpText_nomeAcesso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditNivelAcessoLabel_descricaoAcesso}" for="descricaoAcesso" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoAcesso" value="#{nivelAcessoController.selected.descricaoAcesso}" title="#{mqpBundle.EditNivelAcessoTitle_descricaoAcesso}" />
+                            <p:tooltip for="descricaoAcesso" value="#{nivelAcessoController.getComponentMessages('descricaoAcesso', mqpBundle.EditNivelAcessoHelpText_descricaoAcesso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditNivelAcessoLabel_siglaAcesso}" for="siglaAcesso" />
+                        <h:panelGroup>
+                            <p:inputText id="siglaAcesso" value="#{nivelAcessoController.selected.siglaAcesso}" title="#{mqpBundle.EditNivelAcessoTitle_siglaAcesso}" size="10" maxlength="10"/>
+                            <p:tooltip for="siglaAcesso" value="#{nivelAcessoController.getComponentMessages('siglaAcesso', mqpBundle.EditNivelAcessoHelpText_siglaAcesso)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nivelAcessoController.save}" value="#{mqpBundle.Save}" update="display,:NivelAcessoListForm:datalist,:NivelAcessoListForm:NivelAcessoDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('NivelAcessoEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('NivelAcessoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

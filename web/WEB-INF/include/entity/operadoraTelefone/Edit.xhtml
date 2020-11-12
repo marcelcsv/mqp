@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="OperadoraTelefoneEditDlg" widgetVar="OperadoraTelefoneEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditOperadoraTelefoneTitle}" closeOnEscape="true">
+
+            <h:form id="OperadoraTelefoneEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{operadoraTelefoneController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditOperadoraTelefoneLabel_idOperadora}" for="idOperadora" />
+                        <h:panelGroup>
+                            <h:outputText id="idOperadora" value="#{operadoraTelefoneController.selected.idOperadora}" />
+                            <p:tooltip for="idOperadora" value="#{operadoraTelefoneController.getComponentMessages('idOperadora', mqpBundle.EditOperadoraTelefoneHelpText_idOperadora)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditOperadoraTelefoneLabel_nomeOperadora}" for="nomeOperadora" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeOperadora" value="#{operadoraTelefoneController.selected.nomeOperadora}" title="#{mqpBundle.EditOperadoraTelefoneTitle_nomeOperadora}" required="true" requiredMessage="#{mqpBundle.EditOperadoraTelefoneRequiredMessage_nomeOperadora}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeOperadora" value="#{operadoraTelefoneController.getComponentMessages('nomeOperadora', mqpBundle.EditOperadoraTelefoneHelpText_nomeOperadora)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operadoraTelefoneController.save}" value="#{mqpBundle.Save}" update="display,:OperadoraTelefoneListForm:datalist,:OperadoraTelefoneListForm:OperadoraTelefoneDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OperadoraTelefoneEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('OperadoraTelefoneEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

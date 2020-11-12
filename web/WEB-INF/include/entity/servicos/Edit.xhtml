@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ServicosEditDlg" widgetVar="ServicosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditServicosTitle}" closeOnEscape="true">
+
+            <h:form id="ServicosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{servicosController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditServicosLabel_idServico}" for="idServico" />
+                        <h:panelGroup>
+                            <h:outputText id="idServico" value="#{servicosController.selected.idServico}" />
+                            <p:tooltip for="idServico" value="#{servicosController.getComponentMessages('idServico', mqpBundle.EditServicosHelpText_idServico)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditServicosLabel_nomeServico}" for="nomeServico" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeServico" value="#{servicosController.selected.nomeServico}" title="#{mqpBundle.EditServicosTitle_nomeServico}" required="true" requiredMessage="#{mqpBundle.EditServicosRequiredMessage_nomeServico}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeServico" value="#{servicosController.getComponentMessages('nomeServico', mqpBundle.EditServicosHelpText_nomeServico)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditServicosLabel_descricaoServico}" for="descricaoServico" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoServico" value="#{servicosController.selected.descricaoServico}" title="#{mqpBundle.EditServicosTitle_descricaoServico}" />
+                            <p:tooltip for="descricaoServico" value="#{servicosController.getComponentMessages('descricaoServico', mqpBundle.EditServicosHelpText_descricaoServico)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditServicosLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{servicosController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{servicosController.getComponentMessages('status', mqpBundle.EditServicosHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditServicosLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{servicosController.selected.matricula}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{servicosController.getComponentMessages('matricula', mqpBundle.EditServicosHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{servicosController.save}" value="#{mqpBundle.Save}" update="display,:ServicosListForm:datalist,:ServicosListForm:ServicosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServicosEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('ServicosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

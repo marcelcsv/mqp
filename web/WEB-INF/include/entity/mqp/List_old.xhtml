@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MqpListForm">
+
+        <p:panel header="#{mqpBundle.ListMqpTitle}">
+            <p:contextMenu id="MqpDataTableContextMenu" for="datalist" style="width: 180px;">
+                <p:menuitem value="#{mqpBundle.EditMovimentacao}" onclick="document.getElementById('MqpListForm:editButton').click();" icon="fa fa-gear fa-sm"/>
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('MqpListForm:createButton').click();" icon="ui-icon-plus" rendered="#{chave == 'F6750699'}"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('MqpListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('MqpListForm:deleteButton').click();" icon="ui-icon-trash" rendered="#{chave == 'F6750699'}"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.MqpMenuItem_emailCollection}" icon="ui-icon-search"  action="#{mqpController.navigateEmailCollection}" disabled="#{mqpController.isEmailCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.MqpMenuItem_movimentacao}" icon="ui-icon-search"  actionListener="#{mqpController.prepareMovimentacao}" update=":MovimentacaoViewForm" oncomplete="PF('MovimentacaoViewDialog').show()" disabled="#{empty mqpController.selected.movimentacao}"/>  
+                <p:menuitem value="#{mqpBundle.MqpMenuItem_prefixo}" icon="ui-icon-search"  actionListener="#{mqpController.preparePrefixo}" update=":PrefixosViewForm" oncomplete="PF('PrefixosViewDialog').show()" disabled="#{empty mqpController.selected.prefixo}"/>  
+                <p:menuitem value="#{mqpBundle.MqpMenuItem_status}" icon="ui-icon-search"  actionListener="#{mqpController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty mqpController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.MqpMenuItem_insercao}" icon="ui-icon-search"  actionListener="#{mqpController.prepareInsercao}" update=":TipoInsercaoViewForm" oncomplete="PF('TipoInsercaoViewDialog').show()" disabled="#{empty mqpController.selected.insercao}"/>  
+                <p:menuitem value="#{mqpBundle.MqpMenuItem_matricula}" icon="ui-icon-search"  actionListener="#{mqpController.prepareMatricula}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty mqpController.selected.matricula}"/>  
+                <p:menuitem value="#{mqpBundle.MqpMenuItem_matriculaSolicitante}" icon="ui-icon-search"  actionListener="#{mqpController.prepareMatriculaSolicitante}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty mqpController.selected.matriculaSolicitante}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{mqpController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{mqpController.selected}"
+                         filteredValue="#{mqpController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{mqpController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:MqpDataTableContextMenu" listener="#{mqpController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:MqpDataTableContextMenu" listener="#{mqpController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{mqpController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MqpListForm:viewButton').click();"/>
+
+                <p:column style="width:10px" exportable="false">
+                    <p:rowToggler />
+                </p:column>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.matricula.matricula}" filterBy="#{item.matricula.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_matricula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matricula.matricula} - #{item.matricula.nome}"/>
+                </p:column>                
+
+                <p:column sortBy="#{item.prefixo.prefixo}" filterBy="#{item.prefixo.prefixo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_prefixo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.prefixo.prefixo} - #{item.prefixo.nomePrefixo}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.status.status}" filterBy="#{item.status.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.movimentacao.nomeMovimentacao}" filterBy="#{item.movimentacao.nomeMovimentacao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_movimentacao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.movimentacao.nomeMovimentacao}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.insercao.nomeTipoInsercao}" filterBy="#{item.insercao.nomeTipoInsercao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_insercao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.insercao.nomeTipoInsercao}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.matriculaSolicitante.matricula}" filterBy="#{item.matriculaSolicitante.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_matriculaSolicitante}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matriculaSolicitante.matricula} - #{item.matriculaSolicitante.nome}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.dataHoraRegistro}" filterBy="#{item.dataHoraRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_dataHoraRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataHoraRegistro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column sortBy="#{item.linhaTelefonica}" filterBy="#{item.linhaTelefonica}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_linhaTelefonica}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.linhaTelefonica}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.equipamentos}" filterBy="#{item.equipamentos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_equipamentos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.equipamentos}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.servicos}" filterBy="#{item.servicos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_servicos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicos}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.tagEstacionamento}" filterBy="#{item.tagEstacionamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_tagEstacionamento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tagEstacionamento}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.cartaoCorporativo}" filterBy="#{item.cartaoCorporativo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_cartaoCorporativo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cartaoCorporativo}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.gdp}" filterBy="#{item.gdp}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_gdp}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.gdp}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.treinamento}" filterBy="#{item.treinamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_treinamento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.treinamento}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.prestacaoDeContas}" filterBy="#{item.prestacaoDeContas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_prestacaoDeContas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.prestacaoDeContas}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.cartaoMultibeneficios}" filterBy="#{item.cartaoMultibeneficios}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListMqpTitle_cartaoMultibeneficios}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cartaoMultibeneficios}"/>
+                </p:column>
+
+                
+                
+                
+                
+            </p:dataTable>
+
+            <p:commandButton id="editButton"   icon="fa fa-gear fa-lg" value="#{mqpBundle.EditMovimentacao}" update=":MqpEditForm" oncomplete="PF('MqpEditDialog').show()" disabled="#{empty mqpController.selected}"/>
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{mqpController.prepareCreate}" update=":MqpCreateForm" oncomplete="PF('MqpCreateDialog').show()" rendered="#{chave == 'F6750699'}" />
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":MqpViewForm" oncomplete="PF('MqpViewDialog').show()" disabled="#{empty mqpController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{mqpController.delete}" update=":growl,datalist" disabled="#{empty mqpController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

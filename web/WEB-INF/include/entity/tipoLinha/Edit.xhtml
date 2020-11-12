@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoLinhaEditDlg" widgetVar="TipoLinhaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditTipoLinhaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoLinhaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoLinhaController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditTipoLinhaLabel_idTipoLinha}" for="idTipoLinha" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoLinha" value="#{tipoLinhaController.selected.idTipoLinha}" />
+                            <p:tooltip for="idTipoLinha" value="#{tipoLinhaController.getComponentMessages('idTipoLinha', mqpBundle.EditTipoLinhaHelpText_idTipoLinha)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditTipoLinhaLabel_nomeTipoLinha}" for="nomeTipoLinha" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeTipoLinha" value="#{tipoLinhaController.selected.nomeTipoLinha}" title="#{mqpBundle.EditTipoLinhaTitle_nomeTipoLinha}" required="true" requiredMessage="#{mqpBundle.EditTipoLinhaRequiredMessage_nomeTipoLinha}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeTipoLinha" value="#{tipoLinhaController.getComponentMessages('nomeTipoLinha', mqpBundle.EditTipoLinhaHelpText_nomeTipoLinha)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditTipoLinhaLabel_descricaoTipoLinha}" for="descricaoTipoLinha" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoTipoLinha" value="#{tipoLinhaController.selected.descricaoTipoLinha}" title="#{mqpBundle.EditTipoLinhaTitle_descricaoTipoLinha}" />
+                            <p:tooltip for="descricaoTipoLinha" value="#{tipoLinhaController.getComponentMessages('descricaoTipoLinha', mqpBundle.EditTipoLinhaHelpText_descricaoTipoLinha)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoLinhaController.save}" value="#{mqpBundle.Save}" update="display,:TipoLinhaListForm:datalist,:TipoLinhaListForm:TipoLinhaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoLinhaEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('TipoLinhaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

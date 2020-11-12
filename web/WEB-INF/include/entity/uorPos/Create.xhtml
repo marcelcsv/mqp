@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UorPosCreateDlg" widgetVar="UorPosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateUorPosTitle}" closeOnEscape="true">
+
+            <h:form id="UorPosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{uorPosController.selected != null}">
+                    <p:tabView id="UorPosTabView">
+
+                        <p:tab id="UorPosTab1" title="#{mqpBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="#{mqpBundle.CreateUorPosLabel_matricula}" for="matricula" />
+                                <h:panelGroup>
+                                    <p:inputText id="matricula" value="#{uorPosController.selected.matricula}" title="#{mqpBundle.CreateUorPosTitle_matricula}" required="true" requiredMessage="#{mqpBundle.CreateUorPosRequiredMessage_matricula}" size="8" maxlength="8"/>
+                                    <p:tooltip for="matricula" value="#{uorPosController.getComponentMessages('matricula', mqpBundle.CreateUorPosHelpText_matricula)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.CreateUorPosLabel_prefixo}" for="prefixo" />
+                                <h:panelGroup>
+                                    <p:inputText id="prefixo" value="#{uorPosController.selected.prefixo}" title="#{mqpBundle.CreateUorPosTitle_prefixo}" required="true" requiredMessage="#{mqpBundle.CreateUorPosRequiredMessage_prefixo}"/>
+                                    <p:tooltip for="prefixo" value="#{uorPosController.getComponentMessages('prefixo', mqpBundle.CreateUorPosHelpText_prefixo)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.CreateUorPosLabel_nome}" for="nome" />
+                                <h:panelGroup>
+                                    <p:inputText id="nome" value="#{uorPosController.selected.nome}" title="#{mqpBundle.CreateUorPosTitle_nome}" required="true" requiredMessage="#{mqpBundle.CreateUorPosRequiredMessage_nome}" size="100" maxlength="100"/>
+                                    <p:tooltip for="nome" value="#{uorPosController.getComponentMessages('nome', mqpBundle.CreateUorPosHelpText_nome)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.CreateUorPosLabel_uorPos}" for="uorPos" />
+                                <h:panelGroup>
+                                    <p:inputText id="uorPos" value="#{uorPosController.selected.uorPos}" title="#{mqpBundle.CreateUorPosTitle_uorPos}" required="true" requiredMessage="#{mqpBundle.CreateUorPosRequiredMessage_uorPos}"/>
+                                    <p:tooltip for="uorPos" value="#{uorPosController.getComponentMessages('uorPos', mqpBundle.CreateUorPosHelpText_uorPos)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.CreateUorPosLabel_nomeUorPos}" for="nomeUorPos" />
+                                <h:panelGroup>
+                                    <p:inputText id="nomeUorPos" value="#{uorPosController.selected.nomeUorPos}" title="#{mqpBundle.CreateUorPosTitle_nomeUorPos}" size="200" maxlength="200"/>
+                                    <p:tooltip for="nomeUorPos" value="#{uorPosController.getComponentMessages('nomeUorPos', mqpBundle.CreateUorPosHelpText_nomeUorPos)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.CreateUorPosLabel_dataCaptura}" for="dataCaptura" />
+                                <h:panelGroup>
+                                    <p:calendar id="dataCaptura" pattern="dd/MM/yyyy HH:mm:ss" value="#{uorPosController.selected.dataCaptura}" title="#{mqpBundle.CreateUorPosTitle_dataCaptura}" required="true" requiredMessage="#{mqpBundle.CreateUorPosRequiredMessage_dataCaptura}" showOn="button"/>
+                                    <p:tooltip for="dataCaptura" value="#{uorPosController.getComponentMessages('dataCaptura', mqpBundle.CreateUorPosHelpText_dataCaptura)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.CreateUorPosLabel_situacao}" for="situacao" />
+                                <h:panelGroup>
+                                    <p:inputText id="situacao" value="#{uorPosController.selected.situacao}" title="#{mqpBundle.CreateUorPosTitle_situacao}"/>
+                                    <p:tooltip for="situacao" value="#{uorPosController.getComponentMessages('situacao', mqpBundle.CreateUorPosHelpText_situacao)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.CreateUorPosLabel_nivelAcesso}" for="nivelAcesso" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="nivelAcesso" value="#{uorPosController.selected.nivelAcesso}" required="true" requiredMessage="#{mqpBundle.CreateUorPosRequiredMessage_nivelAcesso}" converter="nivelAcessoConverter">
+                                        <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{nivelAcessoController.items}"
+                                                       var="nivelAcessoItem"
+                                                       itemValue="#{nivelAcessoItem}"
+                                                       itemLabel="#{nivelAcessoItem.descricaoAcesso.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="nivelAcesso" value="#{uorPosController.getComponentMessages('nivelAcesso', mqpBundle.CreateUorPosHelpText_nivelAcesso)}"/>
+                                </h:panelGroup>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{uorPosController.saveNew}" value="#{mqpBundle.Save}" update="display,:UorPosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UorPosCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('UorPosCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

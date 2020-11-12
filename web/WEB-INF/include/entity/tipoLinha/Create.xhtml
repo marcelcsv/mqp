@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoLinhaCreateDlg" widgetVar="TipoLinhaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateTipoLinhaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoLinhaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoLinhaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateTipoLinhaLabel_nomeTipoLinha}" for="nomeTipoLinha" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeTipoLinha" value="#{tipoLinhaController.selected.nomeTipoLinha}" title="#{mqpBundle.CreateTipoLinhaTitle_nomeTipoLinha}" required="true" requiredMessage="#{mqpBundle.CreateTipoLinhaRequiredMessage_nomeTipoLinha}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeTipoLinha" value="#{tipoLinhaController.getComponentMessages('nomeTipoLinha', mqpBundle.CreateTipoLinhaHelpText_nomeTipoLinha)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTipoLinhaLabel_descricaoTipoLinha}" for="descricaoTipoLinha" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoTipoLinha" value="#{tipoLinhaController.selected.descricaoTipoLinha}" title="#{mqpBundle.CreateTipoLinhaTitle_descricaoTipoLinha}" />
+                            <p:tooltip for="descricaoTipoLinha" value="#{tipoLinhaController.getComponentMessages('descricaoTipoLinha', mqpBundle.CreateTipoLinhaHelpText_descricaoTipoLinha)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoLinhaController.saveNew}" value="#{mqpBundle.Save}" update="display,:TipoLinhaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoLinhaCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('TipoLinhaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

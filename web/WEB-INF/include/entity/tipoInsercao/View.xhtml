@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoInsercaoViewDlg" widgetVar="TipoInsercaoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewTipoInsercaoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoInsercaoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoInsercaoController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewTipoInsercaoLabel_idTipoInsercao}"/>
+                        <h:outputText value="#{tipoInsercaoController.selected.idTipoInsercao}" title="#{mqpBundle.ViewTipoInsercaoTitle_idTipoInsercao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTipoInsercaoLabel_nomeTipoInsercao}"/>
+                        <h:outputText value="#{tipoInsercaoController.selected.nomeTipoInsercao}" title="#{mqpBundle.ViewTipoInsercaoTitle_nomeTipoInsercao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTipoInsercaoLabel_descricaoTipoInsercao}"/>
+                        <h:outputText value="#{tipoInsercaoController.selected.descricaoTipoInsercao}" title="#{mqpBundle.ViewTipoInsercaoTitle_descricaoTipoInsercao}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('TipoInsercaoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

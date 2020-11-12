@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AcaoEditDlg" widgetVar="AcaoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditAcaoTitle}" closeOnEscape="true">
+
+            <h:form id="AcaoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{acaoController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditAcaoLabel_idAcao}" for="idAcao" />
+                        <h:panelGroup>
+                            <h:outputText id="idAcao" value="#{acaoController.selected.idAcao}" />
+                            <p:tooltip for="idAcao" value="#{acaoController.getComponentMessages('idAcao', mqpBundle.EditAcaoHelpText_idAcao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditAcaoLabel_nomeAcao}" for="nomeAcao" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeAcao" value="#{acaoController.selected.nomeAcao}" title="#{mqpBundle.EditAcaoTitle_nomeAcao}" required="true" requiredMessage="#{mqpBundle.EditAcaoRequiredMessage_nomeAcao}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeAcao" value="#{acaoController.getComponentMessages('nomeAcao', mqpBundle.EditAcaoHelpText_nomeAcao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditAcaoLabel_descricaoAcao}" for="descricaoAcao" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoAcao" value="#{acaoController.selected.descricaoAcao}" title="#{mqpBundle.EditAcaoTitle_descricaoAcao}" />
+                            <p:tooltip for="descricaoAcao" value="#{acaoController.getComponentMessages('descricaoAcao', mqpBundle.EditAcaoHelpText_descricaoAcao)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{acaoController.save}" value="#{mqpBundle.Save}" update="display,:AcaoListForm:datalist,:AcaoListForm:AcaoDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AcaoEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('AcaoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

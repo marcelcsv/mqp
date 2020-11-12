@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="StatusEditDlg" widgetVar="StatusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditStatusTitle}" closeOnEscape="true">
+
+            <h:form id="StatusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{statusController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditStatusLabel_idStatus}" for="idStatus" />
+                        <h:panelGroup>
+                            <h:outputText id="idStatus" value="#{statusController.selected.idStatus}" />
+                            <p:tooltip for="idStatus" value="#{statusController.getComponentMessages('idStatus', mqpBundle.EditStatusHelpText_idStatus)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditStatusLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:inputText id="status" value="#{statusController.selected.status}" title="#{mqpBundle.EditStatusTitle_status}" required="true" requiredMessage="#{mqpBundle.EditStatusRequiredMessage_status}" size="100" maxlength="100"/>
+                            <p:tooltip for="status" value="#{statusController.getComponentMessages('status', mqpBundle.EditStatusHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditStatusLabel_descricaoStatus}" for="descricaoStatus" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoStatus" value="#{statusController.selected.descricaoStatus}" title="#{mqpBundle.EditStatusTitle_descricaoStatus}" />
+                            <p:tooltip for="descricaoStatus" value="#{statusController.getComponentMessages('descricaoStatus', mqpBundle.EditStatusHelpText_descricaoStatus)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{statusController.save}" value="#{mqpBundle.Save}" update="display,:StatusListForm:datalist,:StatusListForm:StatusDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('StatusEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('StatusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

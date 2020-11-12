@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ServicosListForm">
+
+        <p:panel header="#{mqpBundle.ListServicosTitle}">
+            <p:contextMenu id="ServicosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('ServicosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('ServicosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('ServicosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('ServicosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.ServicosMenuItem_numRefMQPCollection}" icon="ui-icon-search"  action="#{servicosController.navigateNumRefMQPCollection}" disabled="#{servicosController.isNumRefMQPCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.ServicosMenuItem_status}" icon="ui-icon-search"  actionListener="#{servicosController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty servicosController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.ServicosMenuItem_matricula}" icon="ui-icon-search"  actionListener="#{servicosController.prepareMatricula}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty servicosController.selected.matricula}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{servicosController.items}"
+                         lazy="false"
+                         rowKey="#{item.idServico}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{servicosController.selected}"
+                         filteredValue="#{servicosController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{servicosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idServico}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ServicosDataTableContextMenu" listener="#{servicosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ServicosDataTableContextMenu" listener="#{servicosController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{servicosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ServicosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idServico}" filterBy="#{item.idServico}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListServicosTitle_idServico}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idServico}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nomeServico}" filterBy="#{item.nomeServico}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListServicosTitle_nomeServico}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nomeServico}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descricaoServico}" filterBy="#{item.descricaoServico}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListServicosTitle_descricaoServico}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descricaoServico}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.status.status}" filterBy="#{item.status.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListServicosTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.matricula.matricula}" filterBy="#{item.matricula.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListServicosTitle_matricula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matricula.matricula}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{servicosController.prepareCreate}" update=":ServicosCreateForm" oncomplete="PF('ServicosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":ServicosViewForm" oncomplete="PF('ServicosViewDialog').show()" disabled="#{empty servicosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":ServicosEditForm" oncomplete="PF('ServicosEditDialog').show()" disabled="#{empty servicosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{servicosController.delete}" update=":growl,datalist" disabled="#{empty servicosController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

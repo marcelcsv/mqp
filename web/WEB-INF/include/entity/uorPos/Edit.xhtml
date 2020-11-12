@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UorPosEditDlg" widgetVar="UorPosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditUorPosTitle}" closeOnEscape="true">
+
+            <h:form id="UorPosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="UorPosTabView">
+
+                        <p:tab id="UorPosTab1" title="#{mqpBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{uorPosController.selected != null}">
+
+                                <h:outputLabel value="#{mqpBundle.EditUorPosLabel_matricula}" for="matricula" />
+                                <h:panelGroup>
+                                    <h:outputText id="matricula" value="#{uorPosController.selected.matricula}" />
+                                    <p:tooltip for="matricula" value="#{uorPosController.getComponentMessages('matricula', mqpBundle.EditUorPosHelpText_matricula)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.EditUorPosLabel_prefixo}" for="prefixo" />
+                                <h:panelGroup>
+                                    <p:inputText id="prefixo" value="#{uorPosController.selected.prefixo}" title="#{mqpBundle.EditUorPosTitle_prefixo}" required="true" requiredMessage="#{mqpBundle.EditUorPosRequiredMessage_prefixo}"/>
+                                    <p:tooltip for="prefixo" value="#{uorPosController.getComponentMessages('prefixo', mqpBundle.EditUorPosHelpText_prefixo)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.EditUorPosLabel_nome}" for="nome" />
+                                <h:panelGroup>
+                                    <p:inputText id="nome" value="#{uorPosController.selected.nome}" title="#{mqpBundle.EditUorPosTitle_nome}" required="true" requiredMessage="#{mqpBundle.EditUorPosRequiredMessage_nome}" size="100" maxlength="100"/>
+                                    <p:tooltip for="nome" value="#{uorPosController.getComponentMessages('nome', mqpBundle.EditUorPosHelpText_nome)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.EditUorPosLabel_uorPos}" for="uorPos" />
+                                <h:panelGroup>
+                                    <p:inputText id="uorPos" value="#{uorPosController.selected.uorPos}" title="#{mqpBundle.EditUorPosTitle_uorPos}" required="true" requiredMessage="#{mqpBundle.EditUorPosRequiredMessage_uorPos}"/>
+                                    <p:tooltip for="uorPos" value="#{uorPosController.getComponentMessages('uorPos', mqpBundle.EditUorPosHelpText_uorPos)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.EditUorPosLabel_nomeUorPos}" for="nomeUorPos" />
+                                <h:panelGroup>
+                                    <p:inputText id="nomeUorPos" value="#{uorPosController.selected.nomeUorPos}" title="#{mqpBundle.EditUorPosTitle_nomeUorPos}" size="200" maxlength="200"/>
+                                    <p:tooltip for="nomeUorPos" value="#{uorPosController.getComponentMessages('nomeUorPos', mqpBundle.EditUorPosHelpText_nomeUorPos)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.EditUorPosLabel_dataCaptura}" for="dataCaptura" />
+                                <h:panelGroup>
+                                    <p:calendar id="dataCaptura" pattern="dd/MM/yyyy HH:mm:ss" value="#{uorPosController.selected.dataCaptura}" title="#{mqpBundle.EditUorPosTitle_dataCaptura}" required="true" requiredMessage="#{mqpBundle.EditUorPosRequiredMessage_dataCaptura}" showOn="button"/>
+                                    <p:tooltip for="dataCaptura" value="#{uorPosController.getComponentMessages('dataCaptura', mqpBundle.EditUorPosHelpText_dataCaptura)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.EditUorPosLabel_situacao}" for="situacao" />
+                                <h:panelGroup>
+                                    <p:inputText id="situacao" value="#{uorPosController.selected.situacao}" title="#{mqpBundle.EditUorPosTitle_situacao}"/>
+                                    <p:tooltip for="situacao" value="#{uorPosController.getComponentMessages('situacao', mqpBundle.EditUorPosHelpText_situacao)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{mqpBundle.EditUorPosLabel_nivelAcesso}" for="nivelAcesso" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="nivelAcesso" value="#{uorPosController.selected.nivelAcesso}" required="true" requiredMessage="#{mqpBundle.EditUorPosRequiredMessage_nivelAcesso}" converter="nivelAcessoConverter">
+                                        <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{nivelAcessoController.items}"
+                                                       var="nivelAcessoItem"
+                                                       itemValue="#{nivelAcessoItem}"
+                                                       itemLabel="#{nivelAcessoItem.descricaoAcesso.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="nivelAcesso" value="#{uorPosController.getComponentMessages('nivelAcesso', mqpBundle.EditUorPosHelpText_nivelAcesso)}"/>
+                                </h:panelGroup>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{uorPosController.save}" value="#{mqpBundle.Save}" update="display,:UorPosListForm:datalist,:UorPosListForm:UorPosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UorPosEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('UorPosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

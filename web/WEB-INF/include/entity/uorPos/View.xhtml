@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UorPosViewDlg" widgetVar="UorPosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewUorPosTitle}" closeOnEscape="true">
+
+            <h:form id="UorPosViewForm">
+
+                <h:panelGroup id="display">
+
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{uorPosController.selected != null}">
+                        <h:outputText value="#{mqpBundle.ViewUorPosLabel_matricula}"/>
+                        <h:outputText value="#{uorPosController.selected.matricula}" title="#{mqpBundle.ViewUorPosTitle_matricula}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewUorPosLabel_nome}"/>
+                        <h:outputText value="#{uorPosController.selected.nome}" title="#{mqpBundle.ViewUorPosTitle_nome}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewUorPosLabel_prefixo}"/>
+                        <h:outputText value="#{uorPosController.selected.prefixo}" title="#{mqpBundle.ViewUorPosTitle_prefixo}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewUorPosLabel_nomeUorPos}"/>
+                        <h:outputText value="#{uorPosController.selected.nomeUorPos}" title="#{mqpBundle.ViewUorPosTitle_nomeUorPos}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewUorPosLabel_uorPos}"/>
+                        <h:outputText value="#{uorPosController.selected.uorPos}" title="#{mqpBundle.ViewUorPosTitle_uorPos}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewUorPosLabel_dataCaptura}"/>
+                        <h:outputText value="#{uorPosController.selected.dataCaptura}" title="#{mqpBundle.ViewUorPosTitle_dataCaptura}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{mqpBundle.ViewUorPosLabel_situacao}"/>
+                        <h:outputText value="#{uorPosController.selected.situacao}" title="#{mqpBundle.ViewUorPosTitle_situacao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewUorPosLabel_nivelAcesso}"/>
+                        <h:outputText value="#{uorPosController.selected.nivelAcesso.nomeAcesso}"/>
+                    </p:panelGrid>
+
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('UorPosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

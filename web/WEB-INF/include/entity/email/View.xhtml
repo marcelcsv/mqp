@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmailViewDlg" widgetVar="EmailViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewEmailTitle}" closeOnEscape="true">
+
+            <h:form id="EmailViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" style="width: 800px; height: 10%;" rendered="#{emailController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_idEmail}"/>
+                        <h:outputText value="#{emailController.selected.idEmail}" title="#{mqpBundle.ViewEmailTitle_idEmail}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_destino}"/>
+                        <h:outputText value="#{emailController.selected.destino}" title="#{mqpBundle.ViewEmailTitle_destino}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_cc}"/>
+                        <h:outputText value="#{emailController.selected.cc}" title="#{mqpBundle.ViewEmailTitle_cc}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_co}"/>
+                        <h:outputText value="#{emailController.selected.co}" title="#{mqpBundle.ViewEmailTitle_co}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_assunto}"/>
+                        <h:outputText value="#{emailController.selected.assunto}" title="#{mqpBundle.ViewEmailTitle_assunto}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_mensagem}"/>
+                        <h:outputText value="#{emailController.selected.mensagem}" title="#{mqpBundle.ViewEmailTitle_mensagem}" escape="false" />
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_dataEnvio}"/>
+                        <h:outputText value="#{emailController.selected.dataEnvio}" title="#{mqpBundle.ViewEmailTitle_dataEnvio}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_movimentacao}"/>
+                        <h:outputText value="#{emailController.selected.movimentacao.tagEstacionamento}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_status}"/>
+                        <h:outputText value="#{emailController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewEmailLabel_matriculaEnvioManual}"/>
+                        <h:outputText value="#{emailController.selected.matriculaEnvioManual.matricula} - #{emailController.selected.matriculaEnvioManual.nome}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('EmailViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

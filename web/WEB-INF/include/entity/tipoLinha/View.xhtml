@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoLinhaViewDlg" widgetVar="TipoLinhaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewTipoLinhaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoLinhaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoLinhaController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewTipoLinhaLabel_idTipoLinha}"/>
+                        <h:outputText value="#{tipoLinhaController.selected.idTipoLinha}" title="#{mqpBundle.ViewTipoLinhaTitle_idTipoLinha}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTipoLinhaLabel_nomeTipoLinha}"/>
+                        <h:outputText value="#{tipoLinhaController.selected.nomeTipoLinha}" title="#{mqpBundle.ViewTipoLinhaTitle_nomeTipoLinha}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTipoLinhaLabel_descricaoTipoLinha}"/>
+                        <h:outputText value="#{tipoLinhaController.selected.descricaoTipoLinha}" title="#{mqpBundle.ViewTipoLinhaTitle_descricaoTipoLinha}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('TipoLinhaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

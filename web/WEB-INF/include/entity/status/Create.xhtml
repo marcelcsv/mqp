@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StatusCreateDlg" widgetVar="StatusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateStatusTitle}" closeOnEscape="true">
+
+            <h:form id="StatusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{statusController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateStatusLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:inputText id="status" value="#{statusController.selected.status}" title="#{mqpBundle.CreateStatusTitle_status}" required="true" requiredMessage="#{mqpBundle.CreateStatusRequiredMessage_status}" size="100" maxlength="100"/>
+                            <p:tooltip for="status" value="#{statusController.getComponentMessages('status', mqpBundle.CreateStatusHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateStatusLabel_descricaoStatus}" for="descricaoStatus" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoStatus" value="#{statusController.selected.descricaoStatus}" title="#{mqpBundle.CreateStatusTitle_descricaoStatus}" />
+                            <p:tooltip for="descricaoStatus" value="#{statusController.getComponentMessages('descricaoStatus', mqpBundle.CreateStatusHelpText_descricaoStatus)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{statusController.saveNew}" value="#{mqpBundle.Save}" update="display,:StatusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('StatusCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('StatusCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

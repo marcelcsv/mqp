@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="JurisdicionadasCreateDlg" widgetVar="JurisdicionadasCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateJurisdicionadasTitle}" closeOnEscape="true">
+
+            <h:form id="JurisdicionadasCreateForm">
+
+                <h:panelGroup id="display" rendered="#{jurisdicionadasController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateJurisdicionadasLabel_prefixoJurisdicionada}" for="prefixoJurisdicionada" />
+                        <h:panelGroup>
+                            <p:inputText id="prefixoJurisdicionada" value="#{jurisdicionadasController.selected.prefixoJurisdicionada}" title="#{mqpBundle.CreateJurisdicionadasTitle_prefixoJurisdicionada}"/>
+                            <p:tooltip for="prefixoJurisdicionada" value="#{jurisdicionadasController.getComponentMessages('prefixoJurisdicionada', mqpBundle.CreateJurisdicionadasHelpText_prefixoJurisdicionada)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateJurisdicionadasLabel_nomePrefixoJurisdicionada}" for="nomePrefixoJurisdicionada" />
+                        <h:panelGroup>
+                            <p:inputText id="nomePrefixoJurisdicionada" value="#{jurisdicionadasController.selected.nomePrefixoJurisdicionada}" title="#{mqpBundle.CreateJurisdicionadasTitle_nomePrefixoJurisdicionada}" size="200" maxlength="200"/>
+                            <p:tooltip for="nomePrefixoJurisdicionada" value="#{jurisdicionadasController.getComponentMessages('nomePrefixoJurisdicionada', mqpBundle.CreateJurisdicionadasHelpText_nomePrefixoJurisdicionada)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateJurisdicionadasLabel_prefixo}" for="prefixo" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="prefixo" value="#{jurisdicionadasController.selected.prefixo}"  converter="prefixosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{prefixosController.items}"
+                                               var="prefixoItem"
+                                               itemValue="#{prefixoItem}"
+                                               itemLabel="#{prefixoItem.prefixo.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="prefixo" value="#{jurisdicionadasController.getComponentMessages('prefixo', mqpBundle.CreateJurisdicionadasHelpText_prefixo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{jurisdicionadasController.saveNew}" value="#{mqpBundle.Save}" update="display,:JurisdicionadasListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('JurisdicionadasCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('JurisdicionadasCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

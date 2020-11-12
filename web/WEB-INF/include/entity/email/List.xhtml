@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EmailListForm">
+
+        <p:panel header="#{mqpBundle.ListEmailTitle}">
+            <p:contextMenu id="EmailDataTableContextMenu" for="datalist" style="width: 200px">
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('EmailListForm:createButton').click();" icon="ui-icon-plus" rendered="#{chave == 'F6750699'}"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('EmailListForm:viewButton').click();" icon="ui-icon-search" rendered="#{chave == 'F6750699'}"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('EmailListForm:editButton').click();" icon="ui-icon-pencil" rendered="#{chave == 'F6750699'}"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('EmailListForm:deleteButton').click();" icon="ui-icon-trash" rendered="#{chave == 'F6750699'}"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.EmailMenuItem_movimentacao}" icon="ui-icon-search"  actionListener="#{emailController.prepareMovimentacao}" update=":MqpViewForm" oncomplete="PF('MqpViewDialog').show()" disabled="#{empty emailController.selected.movimentacao}"/>  
+                <p:menuitem value="#{mqpBundle.EmailMenuItem_status}" icon="ui-icon-search"  actionListener="#{emailController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty emailController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.EmailMenuItem_matriculaEnvioManual}" icon="ui-icon-search"  actionListener="#{emailController.prepareMatriculaEnvioManual}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty emailController.selected.matriculaEnvioManual}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{emailController.items}"
+                         lazy="false"
+                         rowKey="#{item.idEmail}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{emailController.selected}"
+                         filteredValue="#{emailController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{emailController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idEmail}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EmailDataTableContextMenu" listener="#{emailController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EmailDataTableContextMenu" listener="#{emailController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{emailController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EmailListForm:viewButton').click();"/>
+
+                <p:column style="width:10px" exportable="false">
+                    <p:rowToggler />
+                </p:column>
+
+                <p:column sortBy="#{item.idEmail}" filterBy="#{item.idEmail}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListEmailTitle_idEmail}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEmail}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.movimentacao.nomeMovimentacao}" filterBy="#{item.movimentacao.nomeMovimentacao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListEmailTitle_movimentacao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.movimentacao.id}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.status.status}" filterBy="#{item.status.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListEmailTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.matriculaEnvioManual.matricula}" filterBy="#{item.matriculaEnvioManual.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListEmailTitle_matriculaEnvioManual}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matriculaEnvioManual.matricula} - #{item.matriculaEnvioManual.nome}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.dataEnvio}" filterBy="#{item.dataEnvio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListEmailTitle_dataEnvio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataEnvio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <p:rowExpansion>
+                    <p:column colspan="9">
+                        <p:row>                                
+                            <h:outputText value="#{mqpBundle.ListEmailTitle_destino}:&nbsp;"/> 
+                            <h:outputText value="#{item.destino}"/>
+                            <br />
+                            <h:outputText value="#{mqpBundle.ListEmailTitle_cc}:&nbsp;" /> 
+                            <h:outputText value="#{item.cc}"/>
+                            <br />
+                            <h:outputText value="#{mqpBundle.ListEmailTitle_co}:&nbsp;" /> 
+                            <h:outputText value="#{item.co}"/>
+                            <br />
+                            <h:outputText value="#{mqpBundle.ListEmailTitle_assunto}:&nbsp;" /> 
+                            <h:outputText value="#{item.assunto}"/>
+                            <br />
+                            <h:outputText value="#{mqpBundle.ListEmailTitle_mensagem}:&nbsp;" />
+                            <h:outputText value="#{item.mensagem}" escape="false"/>
+                        </p:row>
+                    </p:column>
+
+                </p:rowExpansion>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{emailController.prepareCreate}" update=":EmailCreateForm" oncomplete="PF('EmailCreateDialog').show()" rendered="#{chave == 'F6750699'}"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":EmailViewForm" oncomplete="PF('EmailViewDialog').show()" disabled="#{empty emailController.selected}" rendered="#{chave == 'F6750699'}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":EmailEditForm" oncomplete="PF('EmailEditDialog').show()" disabled="#{empty emailController.selected}" rendered="#{chave == 'F6750699'}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{emailController.delete}" update=":growl,datalist" disabled="#{empty emailController.selected}" rendered="#{chave == 'F6750699'}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

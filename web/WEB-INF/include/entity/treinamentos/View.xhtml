@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TreinamentosViewDlg" widgetVar="TreinamentosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewTreinamentosTitle}" closeOnEscape="true">
+
+            <h:form id="TreinamentosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{treinamentosController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewTreinamentosLabel_idTreinamento}"/>
+                        <h:outputText value="#{treinamentosController.selected.idTreinamento}" title="#{mqpBundle.ViewTreinamentosTitle_idTreinamento}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTreinamentosLabel_nomeTreinamento}"/>
+                        <h:outputText value="#{treinamentosController.selected.nomeTreinamento}" title="#{mqpBundle.ViewTreinamentosTitle_nomeTreinamento}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTreinamentosLabel_status}"/>
+                        <h:outputText value="#{treinamentosController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTreinamentosLabel_matricula}"/>
+                        <h:outputText value="#{treinamentosController.selected.matricula.matricula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('TreinamentosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

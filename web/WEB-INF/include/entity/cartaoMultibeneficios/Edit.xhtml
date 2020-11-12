@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CartaoMultibeneficiosEditDlg" widgetVar="CartaoMultibeneficiosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditCartaoMultibeneficiosTitle}" closeOnEscape="true">
+
+            <h:form id="CartaoMultibeneficiosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cartaoMultibeneficiosController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditCartaoMultibeneficiosLabel_idCartaoMultibeneficios}" for="idCartaoMultibeneficios" />
+                        <h:panelGroup>
+                            <h:outputText id="idCartaoMultibeneficios" value="#{cartaoMultibeneficiosController.selected.idCartaoMultibeneficios}" />
+                            <p:tooltip for="idCartaoMultibeneficios" value="#{cartaoMultibeneficiosController.getComponentMessages('idCartaoMultibeneficios', mqpBundle.EditCartaoMultibeneficiosHelpText_idCartaoMultibeneficios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditCartaoMultibeneficiosLabel_dataDeAdesao}" for="dataDeAdesao" />
+                        <h:panelGroup>
+                            <p:calendar id="dataDeAdesao" pattern="dd/MM/yyyy HH:mm:ss" value="#{cartaoMultibeneficiosController.selected.dataDeAdesao}" title="#{mqpBundle.EditCartaoMultibeneficiosTitle_dataDeAdesao}"  showOn="button"/>
+                            <p:tooltip for="dataDeAdesao" value="#{cartaoMultibeneficiosController.getComponentMessages('dataDeAdesao', mqpBundle.EditCartaoMultibeneficiosHelpText_dataDeAdesao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditCartaoMultibeneficiosLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{cartaoMultibeneficiosController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{cartaoMultibeneficiosController.getComponentMessages('status', mqpBundle.EditCartaoMultibeneficiosHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditCartaoMultibeneficiosLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{cartaoMultibeneficiosController.selected.matricula}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{cartaoMultibeneficiosController.getComponentMessages('matricula', mqpBundle.EditCartaoMultibeneficiosHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cartaoMultibeneficiosController.save}" value="#{mqpBundle.Save}" update="display,:CartaoMultibeneficiosListForm:datalist,:CartaoMultibeneficiosListForm:CartaoMultibeneficiosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CartaoMultibeneficiosEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('CartaoMultibeneficiosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoMovimentoPendenteCreateDlg" widgetVar="TipoMovimentoPendenteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateTipoMovimentoPendenteTitle}" closeOnEscape="true">
+
+            <h:form id="TipoMovimentoPendenteCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoMovimentoPendenteController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateTipoMovimentoPendenteLabel_nomeTipoMovimentoPendente}" for="nomeTipoMovimentoPendente" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeTipoMovimentoPendente" value="#{tipoMovimentoPendenteController.selected.nomeTipoMovimentoPendente}" title="#{mqpBundle.CreateTipoMovimentoPendenteTitle_nomeTipoMovimentoPendente}" required="true" requiredMessage="#{mqpBundle.CreateTipoMovimentoPendenteRequiredMessage_nomeTipoMovimentoPendente}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeTipoMovimentoPendente" value="#{tipoMovimentoPendenteController.getComponentMessages('nomeTipoMovimentoPendente', mqpBundle.CreateTipoMovimentoPendenteHelpText_nomeTipoMovimentoPendente)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTipoMovimentoPendenteLabel_descricaoTipoMovimentoPendente}" for="descricaoTipoMovimentoPendente" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoTipoMovimentoPendente" value="#{tipoMovimentoPendenteController.selected.descricaoTipoMovimentoPendente}" title="#{mqpBundle.CreateTipoMovimentoPendenteTitle_descricaoTipoMovimentoPendente}" />
+                            <p:tooltip for="descricaoTipoMovimentoPendente" value="#{tipoMovimentoPendenteController.getComponentMessages('descricaoTipoMovimentoPendente', mqpBundle.CreateTipoMovimentoPendenteHelpText_descricaoTipoMovimentoPendente)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoMovimentoPendenteController.saveNew}" value="#{mqpBundle.Save}" update="display,:TipoMovimentoPendenteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoMovimentoPendenteCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('TipoMovimentoPendenteCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

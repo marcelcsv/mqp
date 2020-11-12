@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="StatusListForm">
+
+        <p:panel header="#{mqpBundle.ListStatusTitle}">
+            <p:contextMenu id="StatusDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('StatusListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('StatusListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('StatusListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('StatusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_emailCollection}" icon="ui-icon-search"  action="#{statusController.navigateEmailCollection}" disabled="#{statusController.isEmailCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_telefoneCollection}" icon="ui-icon-search"  action="#{statusController.navigateTelefoneCollection}" disabled="#{statusController.isTelefoneCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_gdpCollection}" icon="ui-icon-search"  action="#{statusController.navigateGdpCollection}" disabled="#{statusController.isGdpCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_treinamentosCollection}" icon="ui-icon-search"  action="#{statusController.navigateTreinamentosCollection}" disabled="#{statusController.isTreinamentosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_tagEstacionamentoCollection}" icon="ui-icon-search"  action="#{statusController.navigateTagEstacionamentoCollection}" disabled="#{statusController.isTagEstacionamentoCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_cartaoCorporativoCollection}" icon="ui-icon-search"  action="#{statusController.navigateCartaoCorporativoCollection}" disabled="#{statusController.isCartaoCorporativoCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_mqpInitCollection}" icon="ui-icon-search"  action="#{statusController.navigateMqpInitCollection}" disabled="#{statusController.isMqpInitCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_equipamentosCollection}" icon="ui-icon-search"  action="#{statusController.navigateEquipamentosCollection}" disabled="#{statusController.isEquipamentosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_cartaoMultibeneficiosCollection}" icon="ui-icon-search"  action="#{statusController.navigateCartaoMultibeneficiosCollection}" disabled="#{statusController.isCartaoMultibeneficiosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_mqpCollection}" icon="ui-icon-search"  action="#{statusController.navigateMqpCollection}" disabled="#{statusController.isMqpCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_servicosCollection}" icon="ui-icon-search"  action="#{statusController.navigateServicosCollection}" disabled="#{statusController.isServicosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.StatusMenuItem_prestacaoDeContasCollection}" icon="ui-icon-search"  action="#{statusController.navigatePrestacaoDeContasCollection}" disabled="#{statusController.isPrestacaoDeContasCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{statusController.items}"
+                         lazy="false"
+                         rowKey="#{item.idStatus}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{statusController.selected}"
+                         filteredValue="#{statusController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{statusController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idStatus}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:StatusDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:StatusDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('StatusListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idStatus}" filterBy="#{item.idStatus}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListStatusTitle_idStatus}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idStatus}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.status}" filterBy="#{item.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListStatusTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descricaoStatus}" filterBy="#{item.descricaoStatus}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListStatusTitle_descricaoStatus}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descricaoStatus}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{statusController.prepareCreate}" update=":StatusCreateForm" oncomplete="PF('StatusCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty statusController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":StatusEditForm" oncomplete="PF('StatusEditDialog').show()" disabled="#{empty statusController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{statusController.delete}" update=":growl,datalist" disabled="#{empty statusController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

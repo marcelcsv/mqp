@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="GdpListForm">
+
+        <p:panel header="#{mqpBundle.ListGdpTitle}">
+            <p:contextMenu id="GdpDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('GdpListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('GdpListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('GdpListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('GdpListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.GdpMenuItem_status}" icon="ui-icon-search"  actionListener="#{gdpController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty gdpController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.GdpMenuItem_matricula}" icon="ui-icon-search"  actionListener="#{gdpController.prepareMatricula}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty gdpController.selected.matricula}"/>  
+                <p:menuitem value="#{mqpBundle.GdpMenuItem_numRefMQPCollection}" icon="ui-icon-search"  action="#{gdpController.navigateNumRefMQPCollection}" disabled="#{gdpController.isNumRefMQPCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{gdpController.items}"
+                         lazy="false"
+                         rowKey="#{item.idGDP}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{gdpController.selected}"
+                         filteredValue="#{gdpController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{gdpController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idGDP}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:GdpDataTableContextMenu" listener="#{gdpController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:GdpDataTableContextMenu" listener="#{gdpController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{gdpController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('GdpListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idGDP}" filterBy="#{item.idGDP}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListGdpTitle_idGDP}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idGDP}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nomeGDP}" filterBy="#{item.nomeGDP}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListGdpTitle_nomeGDP}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nomeGDP}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descricaoGDP}" filterBy="#{item.descricaoGDP}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListGdpTitle_descricaoGDP}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descricaoGDP}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.status.status}" filterBy="#{item.status.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListGdpTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.matricula.matricula}" filterBy="#{item.matricula.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListGdpTitle_matricula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matricula.matricula}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{gdpController.prepareCreate}" update=":GdpCreateForm" oncomplete="PF('GdpCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":GdpViewForm" oncomplete="PF('GdpViewDialog').show()" disabled="#{empty gdpController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":GdpEditForm" oncomplete="PF('GdpEditDialog').show()" disabled="#{empty gdpController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{gdpController.delete}" update=":growl,datalist" disabled="#{empty gdpController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

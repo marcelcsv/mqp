@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="GdpEditDlg" widgetVar="GdpEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditGdpTitle}" closeOnEscape="true">
+
+            <h:form id="GdpEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{gdpController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditGdpLabel_idGDP}" for="idGDP" />
+                        <h:panelGroup>
+                            <h:outputText id="idGDP" value="#{gdpController.selected.idGDP}" />
+                            <p:tooltip for="idGDP" value="#{gdpController.getComponentMessages('idGDP', mqpBundle.EditGdpHelpText_idGDP)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditGdpLabel_nomeGDP}" for="nomeGDP" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeGDP" value="#{gdpController.selected.nomeGDP}" title="#{mqpBundle.EditGdpTitle_nomeGDP}" required="true" requiredMessage="#{mqpBundle.EditGdpRequiredMessage_nomeGDP}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeGDP" value="#{gdpController.getComponentMessages('nomeGDP', mqpBundle.EditGdpHelpText_nomeGDP)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditGdpLabel_descricaoGDP}" for="descricaoGDP" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoGDP" value="#{gdpController.selected.descricaoGDP}" title="#{mqpBundle.EditGdpTitle_descricaoGDP}" />
+                            <p:tooltip for="descricaoGDP" value="#{gdpController.getComponentMessages('descricaoGDP', mqpBundle.EditGdpHelpText_descricaoGDP)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditGdpLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{gdpController.selected.status}"  converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{gdpController.getComponentMessages('status', mqpBundle.EditGdpHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditGdpLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{gdpController.selected.matricula}"  dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{gdpController.getComponentMessages('matricula', mqpBundle.EditGdpHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{gdpController.save}" value="#{mqpBundle.Save}" update="display,:GdpListForm:datalist,:GdpListForm:GdpDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GdpEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('GdpEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

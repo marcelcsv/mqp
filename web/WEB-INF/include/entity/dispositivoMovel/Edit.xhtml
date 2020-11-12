@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DispositivoMovelEditDlg" widgetVar="DispositivoMovelEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditDispositivoMovelTitle}" closeOnEscape="true">
+
+            <h:form id="DispositivoMovelEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{dispositivoMovelController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditDispositivoMovelLabel_idDispositivoMovel}" for="idDispositivoMovel" />
+                        <h:panelGroup>
+                            <h:outputText id="idDispositivoMovel" value="#{dispositivoMovelController.selected.idDispositivoMovel}" />
+                            <p:tooltip for="idDispositivoMovel" value="#{dispositivoMovelController.getComponentMessages('idDispositivoMovel', mqpBundle.EditDispositivoMovelHelpText_idDispositivoMovel)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditDispositivoMovelLabel_nomeDispositivoMovel}" for="nomeDispositivoMovel" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeDispositivoMovel" value="#{dispositivoMovelController.selected.nomeDispositivoMovel}" title="#{mqpBundle.EditDispositivoMovelTitle_nomeDispositivoMovel}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeDispositivoMovel" value="#{dispositivoMovelController.getComponentMessages('nomeDispositivoMovel', mqpBundle.EditDispositivoMovelHelpText_nomeDispositivoMovel)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditDispositivoMovelLabel_categoria}" for="categoria" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="categoria" value="#{dispositivoMovelController.selected.categoria}"  converter="categoriaDispositivoConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{categoriaDispositivoController.items}"
+                                               var="categoriaItem"
+                                               itemValue="#{categoriaItem}"
+                                               itemLabel="#{categoriaItem.idCategoria.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="categoria" value="#{dispositivoMovelController.getComponentMessages('categoria', mqpBundle.EditDispositivoMovelHelpText_categoria)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{dispositivoMovelController.save}" value="#{mqpBundle.Save}" update="display,:DispositivoMovelListForm:datalist,:DispositivoMovelListForm:DispositivoMovelDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DispositivoMovelEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('DispositivoMovelEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

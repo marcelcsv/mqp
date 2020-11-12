@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CategoriasCreateDlg" widgetVar="CategoriasCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateCategoriasTitle}" closeOnEscape="true">
+
+            <h:form id="CategoriasCreateForm">
+
+                <h:panelGroup id="display" rendered="#{categoriasController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateCategoriasLabel_nomeCategoria}" for="nomeCategoria" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeCategoria" value="#{categoriasController.selected.nomeCategoria}" title="#{mqpBundle.CreateCategoriasTitle_nomeCategoria}" required="true" requiredMessage="#{mqpBundle.CreateCategoriasRequiredMessage_nomeCategoria}" size="200" maxlength="200"/>
+                            <p:tooltip for="nomeCategoria" value="#{categoriasController.getComponentMessages('nomeCategoria', mqpBundle.CreateCategoriasHelpText_nomeCategoria)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateCategoriasLabel_descricaoCategoria}" for="descricaoCategoria" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="1" cols="30" autoResize="false" maxlength="2000" id="descricaoCategoria" value="#{categoriasController.selected.descricaoCategoria}" title="#{mqpBundle.CreateCategoriasTitle_descricaoCategoria}" />
+                            <p:tooltip for="descricaoCategoria" value="#{categoriasController.getComponentMessages('descricaoCategoria', mqpBundle.CreateCategoriasHelpText_descricaoCategoria)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{categoriasController.saveNew}" value="#{mqpBundle.Save}" update="display,:CategoriasListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CategoriasCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('CategoriasCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

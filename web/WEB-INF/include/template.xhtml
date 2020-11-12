@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title><ui:insert name="title">MQP - Movimentação no Quadro de Pessoal</ui:insert></title>
+        <h:outputStylesheet library="css" name="pfcrud.css"/>
+        <h:outputScript library="scripts" name="pfcrud.js"/>
+        <h:outputStylesheet library="css" name="mov.css"/>
+        <h:outputStylesheet library="css" name="movText.css"/>
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+        <link rel="icon" href="https://geadesp.intranet.bb.com.br/resources/icons/animated_favicon_9.gif" type="image/gif"/>
+    </h:head>
+
+    <h:body>
+
+        <p:growl id="growl" life="15000" globalOnly="false"/>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
+        <p:dialog modal="false" height="100px" widgetVar="statusDialog" resizable="false" draggable="false" closable="false" showHeader="false" style="background: none !important;; box-shadow: none !important; border: none !important;">   
+            <div align="center">
+                <i class="pi pi-spin pi-spinner" style="font-size: 3em"></i>
+            </div>
+        </p:dialog>
+
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="100" >
+                <!-- Menu here. Also a layout and a way to log a user out -->
+                <ui:include src="/WEB-INF/include/appmenu.xhtml"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="body"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="30" resizable="false" header="© Banco do Brasil S/A" collapsible="false" closable="false" >
+                <ui:insert name="footer"/>
+            </p:layoutUnit>
+
+        </p:layout>
+
+    </h:body>
+
+</html>

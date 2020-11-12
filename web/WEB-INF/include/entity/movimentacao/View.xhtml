@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovimentacaoViewDlg" widgetVar="MovimentacaoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewMovimentacaoTitle}" closeOnEscape="true">
+
+            <h:form id="MovimentacaoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" style="width: 400px" rendered="#{movimentacaoController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewMovimentacaoLabel_idMovimentacao}"/>
+                        <h:outputText value="#{movimentacaoController.selected.idMovimentacao}" title="#{mqpBundle.ViewMovimentacaoTitle_idMovimentacao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMovimentacaoLabel_nomeMovimentacao}"/>
+                        <h:outputText value="#{movimentacaoController.selected.nomeMovimentacao}" title="#{mqpBundle.ViewMovimentacaoTitle_nomeMovimentacao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMovimentacaoLabel_descricaoMovimentacao}"/>
+                        <h:outputText value="#{movimentacaoController.selected.descricaoMovimentacao}" title="#{mqpBundle.ViewMovimentacaoTitle_descricaoMovimentacao}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('MovimentacaoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

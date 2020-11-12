@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GdpViewDlg" widgetVar="GdpViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewGdpTitle}" closeOnEscape="true">
+
+            <h:form id="GdpViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{gdpController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewGdpLabel_idGDP}"/>
+                        <h:outputText value="#{gdpController.selected.idGDP}" title="#{mqpBundle.ViewGdpTitle_idGDP}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewGdpLabel_nomeGDP}"/>
+                        <h:outputText value="#{gdpController.selected.nomeGDP}" title="#{mqpBundle.ViewGdpTitle_nomeGDP}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewGdpLabel_descricaoGDP}"/>
+                        <h:outputText value="#{gdpController.selected.descricaoGDP}" title="#{mqpBundle.ViewGdpTitle_descricaoGDP}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewGdpLabel_status}"/>
+                        <h:outputText value="#{gdpController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewGdpLabel_matricula}"/>
+                        <h:outputText value="#{gdpController.selected.matricula.matricula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('GdpViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

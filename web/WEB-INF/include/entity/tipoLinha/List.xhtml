@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoLinhaListForm">
+
+        <p:panel header="#{mqpBundle.ListTipoLinhaTitle}">
+            <p:contextMenu id="TipoLinhaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('TipoLinhaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('TipoLinhaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('TipoLinhaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('TipoLinhaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.TipoLinhaMenuItem_telefoneCollection}" icon="ui-icon-search"  action="#{tipoLinhaController.navigateTelefoneCollection}" disabled="#{tipoLinhaController.isTelefoneCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{tipoLinhaController.items}"
+                         lazy="false"
+                         rowKey="#{item.idTipoLinha}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{tipoLinhaController.selected}"
+                         filteredValue="#{tipoLinhaController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoLinhaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idTipoLinha}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoLinhaDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoLinhaDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoLinhaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTipoLinha}" filterBy="#{item.idTipoLinha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTipoLinhaTitle_idTipoLinha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoLinha}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nomeTipoLinha}" filterBy="#{item.nomeTipoLinha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTipoLinhaTitle_nomeTipoLinha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nomeTipoLinha}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descricaoTipoLinha}" filterBy="#{item.descricaoTipoLinha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTipoLinhaTitle_descricaoTipoLinha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descricaoTipoLinha}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{tipoLinhaController.prepareCreate}" update=":TipoLinhaCreateForm" oncomplete="PF('TipoLinhaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":TipoLinhaViewForm" oncomplete="PF('TipoLinhaViewDialog').show()" disabled="#{empty tipoLinhaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":TipoLinhaEditForm" oncomplete="PF('TipoLinhaEditDialog').show()" disabled="#{empty tipoLinhaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{tipoLinhaController.delete}" update=":growl,datalist" disabled="#{empty tipoLinhaController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

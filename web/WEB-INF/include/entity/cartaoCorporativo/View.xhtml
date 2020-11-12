@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CartaoCorporativoViewDlg" widgetVar="CartaoCorporativoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewCartaoCorporativoTitle}" closeOnEscape="true">
+
+            <h:form id="CartaoCorporativoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cartaoCorporativoController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoCorporativoLabel_idCartaoCorporativo}"/>
+                        <h:outputText value="#{cartaoCorporativoController.selected.idCartaoCorporativo}" title="#{mqpBundle.ViewCartaoCorporativoTitle_idCartaoCorporativo}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoCorporativoLabel_contaCartao}"/>
+                        <h:outputText value="#{cartaoCorporativoController.selected.contaCartao}" title="#{mqpBundle.ViewCartaoCorporativoTitle_contaCartao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoCorporativoLabel_plastico}"/>
+                        <h:outputText value="#{cartaoCorporativoController.selected.plastico}" title="#{mqpBundle.ViewCartaoCorporativoTitle_plastico}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoCorporativoLabel_bandeira}"/>
+                        <h:outputText value="#{cartaoCorporativoController.selected.bandeira}" title="#{mqpBundle.ViewCartaoCorporativoTitle_bandeira}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoCorporativoLabel_validade}"/>
+                        <h:outputText value="#{cartaoCorporativoController.selected.validade}" title="#{mqpBundle.ViewCartaoCorporativoTitle_validade}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoCorporativoLabel_status}"/>
+                        <h:outputText value="#{cartaoCorporativoController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewCartaoCorporativoLabel_matricula}"/>
+                        <h:outputText value="#{cartaoCorporativoController.selected.matricula.matricula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('CartaoCorporativoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

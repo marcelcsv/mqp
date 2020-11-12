@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TreinamentosListForm">
+
+        <p:panel header="#{mqpBundle.ListTreinamentosTitle}">
+            <p:contextMenu id="TreinamentosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('TreinamentosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('TreinamentosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('TreinamentosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('TreinamentosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.TreinamentosMenuItem_numRefMQPCollection}" icon="ui-icon-search"  action="#{treinamentosController.navigateNumRefMQPCollection}" disabled="#{treinamentosController.isNumRefMQPCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{mqpBundle.TreinamentosMenuItem_status}" icon="ui-icon-search"  actionListener="#{treinamentosController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty treinamentosController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.TreinamentosMenuItem_matricula}" icon="ui-icon-search"  actionListener="#{treinamentosController.prepareMatricula}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty treinamentosController.selected.matricula}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{treinamentosController.items}"
+                         lazy="false"
+                         rowKey="#{item.idTreinamento}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{treinamentosController.selected}"
+                         filteredValue="#{treinamentosController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{treinamentosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idTreinamento}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TreinamentosDataTableContextMenu" listener="#{treinamentosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TreinamentosDataTableContextMenu" listener="#{treinamentosController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{treinamentosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TreinamentosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTreinamento}" filterBy="#{item.idTreinamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTreinamentosTitle_idTreinamento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTreinamento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nomeTreinamento}" filterBy="#{item.nomeTreinamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTreinamentosTitle_nomeTreinamento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nomeTreinamento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.status.status}" filterBy="#{item.status.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTreinamentosTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.matricula.matricula}" filterBy="#{item.matricula.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTreinamentosTitle_matricula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matricula.matricula}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{treinamentosController.prepareCreate}" update=":TreinamentosCreateForm" oncomplete="PF('TreinamentosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":TreinamentosViewForm" oncomplete="PF('TreinamentosViewDialog').show()" disabled="#{empty treinamentosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":TreinamentosEditForm" oncomplete="PF('TreinamentosEditDialog').show()" disabled="#{empty treinamentosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{treinamentosController.delete}" update=":growl,datalist" disabled="#{empty treinamentosController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

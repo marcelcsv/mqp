@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TelefoneCreateDlg" widgetVar="TelefoneCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateTelefoneTitle}" closeOnEscape="true">
+
+            <h:form id="TelefoneCreateForm">
+
+                <h:panelGroup id="display" rendered="#{telefoneController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_telefone}" for="telefone" />
+                        <h:panelGroup>
+                            <p:inputText id="telefone" value="#{telefoneController.selected.telefone}" title="#{mqpBundle.CreateTelefoneTitle_telefone}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_telefone}"/>
+                            <p:tooltip for="telefone" value="#{telefoneController.getComponentMessages('telefone', mqpBundle.CreateTelefoneHelpText_telefone)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_ddd}" for="ddd" />
+                        <h:panelGroup>
+                            <p:inputText id="ddd" value="#{telefoneController.selected.ddd}" title="#{mqpBundle.CreateTelefoneTitle_ddd}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_ddd}"/>
+                            <p:tooltip for="ddd" value="#{telefoneController.getComponentMessages('ddd', mqpBundle.CreateTelefoneHelpText_ddd)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_acao}" for="acao" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="acao" value="#{telefoneController.selected.acao}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_acao}" converter="acaoConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{acaoController.items}"
+                                               var="acaoItem"
+                                               itemValue="#{acaoItem}"
+                                               itemLabel="#{acaoItem.descricaoAcao.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="acao" value="#{telefoneController.getComponentMessages('acao', mqpBundle.CreateTelefoneHelpText_acao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_dispositivo}" for="dispositivo" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="dispositivo" value="#{telefoneController.selected.dispositivo}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_dispositivo}" converter="dispositivoMovelConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{dispositivoMovelController.items}"
+                                               var="dispositivoItem"
+                                               itemValue="#{dispositivoItem}"
+                                               itemLabel="#{dispositivoItem.idDispositivoMovel.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="dispositivo" value="#{telefoneController.getComponentMessages('dispositivo', mqpBundle.CreateTelefoneHelpText_dispositivo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_operadora}" for="operadora" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="operadora" value="#{telefoneController.selected.operadora}"  converter="operadoraTelefoneConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{operadoraTelefoneController.items}"
+                                               var="operadoraItem"
+                                               itemValue="#{operadoraItem}"
+                                               itemLabel="#{operadoraItem.idOperadora.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="operadora" value="#{telefoneController.getComponentMessages('operadora', mqpBundle.CreateTelefoneHelpText_operadora)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_situacao}" for="situacao" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="situacao" value="#{telefoneController.selected.situacao}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_situacao}" converter="situacaoConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{situacaoController.items}"
+                                               var="situacaoItem"
+                                               itemValue="#{situacaoItem}"
+                                               itemLabel="#{situacaoItem.descricaoSituacao.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="situacao" value="#{telefoneController.getComponentMessages('situacao', mqpBundle.CreateTelefoneHelpText_situacao)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_status}" for="status" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{telefoneController.selected.status}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_status}" converter="statusConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{statusController.items}"
+                                               var="statusItem"
+                                               itemValue="#{statusItem}"
+                                               itemLabel="#{statusItem.status}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="status" value="#{telefoneController.getComponentMessages('status', mqpBundle.CreateTelefoneHelpText_status)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_tipoLinha}" for="tipoLinha" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="tipoLinha" value="#{telefoneController.selected.tipoLinha}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_tipoLinha}" converter="tipoLinhaConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoLinhaController.items}"
+                                               var="tipoLinhaItem"
+                                               itemValue="#{tipoLinhaItem}"
+                                               itemLabel="#{tipoLinhaItem.descricaoTipoLinha.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="tipoLinha" value="#{telefoneController.getComponentMessages('tipoLinha', mqpBundle.CreateTelefoneHelpText_tipoLinha)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_movimentoPendente}" for="movimentoPendente" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="movimentoPendente" value="#{telefoneController.selected.movimentoPendente}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_movimentoPendente}" converter="tipoMovimentoPendenteConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoMovimentoPendenteController.items}"
+                                               var="movimentoPendenteItem"
+                                               itemValue="#{movimentoPendenteItem}"
+                                               itemLabel="#{movimentoPendenteItem.descricaoTipoMovimentoPendente.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="movimentoPendente" value="#{telefoneController.getComponentMessages('movimentoPendente', mqpBundle.CreateTelefoneHelpText_movimentoPendente)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateTelefoneLabel_matricula}" for="matricula" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="matricula" value="#{telefoneController.selected.matricula}" required="true" requiredMessage="#{mqpBundle.CreateTelefoneRequiredMessage_matricula}" dynamic="true" title="Selecione um..." converter="uorPosConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{uorPosController.items}"
+                                               var="matriculaItem"
+                                               itemValue="#{matriculaItem}"
+                                               itemLabel="#{matriculaItem.matricula} - #{matriculaItem.nome}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="matricula" value="#{telefoneController.getComponentMessages('matricula', mqpBundle.CreateTelefoneHelpText_matricula)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{telefoneController.saveNew}" value="#{mqpBundle.Save}" update="display,:TelefoneListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TelefoneCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('TelefoneCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

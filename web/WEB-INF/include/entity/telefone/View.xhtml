@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TelefoneViewDlg" widgetVar="TelefoneViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewTelefoneTitle}" closeOnEscape="true">
+
+            <h:form id="TelefoneViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{telefoneController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_telefone}"/>
+                        <h:outputText value="#{telefoneController.selected.telefone}" title="#{mqpBundle.ViewTelefoneTitle_telefone}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_ddd}"/>
+                        <h:outputText value="#{telefoneController.selected.ddd}" title="#{mqpBundle.ViewTelefoneTitle_ddd}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_acao}"/>
+                        <h:outputText value="#{telefoneController.selected.acao.descricaoAcao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_dispositivo}"/>
+                        <h:outputText value="#{telefoneController.selected.dispositivo.idDispositivoMovel}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_operadora}"/>
+                        <h:outputText value="#{telefoneController.selected.operadora.idOperadora}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_situacao}"/>
+                        <h:outputText value="#{telefoneController.selected.situacao.descricaoSituacao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_status}"/>
+                        <h:outputText value="#{telefoneController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_tipoLinha}"/>
+                        <h:outputText value="#{telefoneController.selected.tipoLinha.descricaoTipoLinha}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_movimentoPendente}"/>
+                        <h:outputText value="#{telefoneController.selected.movimentoPendente.descricaoTipoMovimentoPendente}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewTelefoneLabel_matricula}"/>
+                        <h:outputText value="#{telefoneController.selected.matricula.matricula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('TelefoneViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

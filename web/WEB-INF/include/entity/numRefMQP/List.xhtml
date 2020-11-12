@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="NumRefMQPListForm">
+
+        <p:panel header="#{mqpBundle.ListNumRefMQPTitle}">
+            <p:contextMenu id="NumRefMQPDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('NumRefMQPListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('NumRefMQPListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('NumRefMQPListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('NumRefMQPListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_cartaoCorporativo}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareCartaoCorporativo}" update=":CartaoCorporativoViewForm" oncomplete="PF('CartaoCorporativoViewDialog').show()" disabled="#{empty numRefMQPController.selected.cartaoCorporativo}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_cartaoMultibeneficios}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareCartaoMultibeneficios}" update=":CartaoMultibeneficiosViewForm" oncomplete="PF('CartaoMultibeneficiosViewDialog').show()" disabled="#{empty numRefMQPController.selected.cartaoMultibeneficios}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_categoria}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareCategoria}" update=":CategoriasViewForm" oncomplete="PF('CategoriasViewDialog').show()" disabled="#{empty numRefMQPController.selected.categoria}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_equipamentos}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareEquipamentos}" update=":EquipamentosViewForm" oncomplete="PF('EquipamentosViewDialog').show()" disabled="#{empty numRefMQPController.selected.equipamentos}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_gdp}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareGdp}" update=":GdpViewForm" oncomplete="PF('GdpViewDialog').show()" disabled="#{empty numRefMQPController.selected.gdp}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_prestacaoDeContas}" icon="ui-icon-search"  actionListener="#{numRefMQPController.preparePrestacaoDeContas}" update=":PrestacaoDeContasViewForm" oncomplete="PF('PrestacaoDeContasViewDialog').show()" disabled="#{empty numRefMQPController.selected.prestacaoDeContas}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_servicos}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareServicos}" update=":ServicosViewForm" oncomplete="PF('ServicosViewDialog').show()" disabled="#{empty numRefMQPController.selected.servicos}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_tagEstacionamento}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareTagEstacionamento}" update=":TagEstacionamentoViewForm" oncomplete="PF('TagEstacionamentoViewDialog').show()" disabled="#{empty numRefMQPController.selected.tagEstacionamento}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_telefone}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareTelefone}" update=":TelefoneViewForm" oncomplete="PF('TelefoneViewDialog').show()" disabled="#{empty numRefMQPController.selected.telefone}"/>  
+                <p:menuitem value="#{mqpBundle.NumRefMQPMenuItem_treinamentos}" icon="ui-icon-search"  actionListener="#{numRefMQPController.prepareTreinamentos}" update=":TreinamentosViewForm" oncomplete="PF('TreinamentosViewDialog').show()" disabled="#{empty numRefMQPController.selected.treinamentos}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{numRefMQPController.items}"
+                         lazy="false"
+                         rowKey="#{item.numRefMQPPK}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{numRefMQPController.selected}"
+                         filteredValue="#{numRefMQPController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{numRefMQPController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.numRefMQPPK}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:NumRefMQPDataTableContextMenu" listener="#{numRefMQPController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:NumRefMQPDataTableContextMenu" listener="#{numRefMQPController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{numRefMQPController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('NumRefMQPListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.numRefMQPPK.numRef}" filterBy="#{item.numRefMQPPK.numRef}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_numRefMQPPK_numRef}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numRefMQPPK.numRef}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numRefMQPPK.idMQP}" filterBy="#{item.numRefMQPPK.idMQP}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_numRefMQPPK_idMQP}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numRefMQPPK.idMQP}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cartaoCorporativo.idCartaoCorporativo}" filterBy="#{item.cartaoCorporativo.idCartaoCorporativo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_cartaoCorporativo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cartaoCorporativo.idCartaoCorporativo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cartaoMultibeneficios.idCartaoMultibeneficios}" filterBy="#{item.cartaoMultibeneficios.idCartaoMultibeneficios}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_cartaoMultibeneficios}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cartaoMultibeneficios.idCartaoMultibeneficios}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.categoria.descricaoCategoria}" filterBy="#{item.categoria.descricaoCategoria}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_categoria}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.categoria.descricaoCategoria}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.equipamentos.descricaoEquipamento}" filterBy="#{item.equipamentos.descricaoEquipamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_equipamentos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.equipamentos.descricaoEquipamento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.gdp.descricaoGDP}" filterBy="#{item.gdp.descricaoGDP}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_gdp}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.gdp.descricaoGDP}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.prestacaoDeContas.descricaoPrestacaoDeContas}" filterBy="#{item.prestacaoDeContas.descricaoPrestacaoDeContas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_prestacaoDeContas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.prestacaoDeContas.descricaoPrestacaoDeContas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicos.descricaoServico}" filterBy="#{item.servicos.descricaoServico}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_servicos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicos.descricaoServico}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tagEstacionamento.tag}" filterBy="#{item.tagEstacionamento.tag}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_tagEstacionamento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tagEstacionamento.tag}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.telefone.telefone}" filterBy="#{item.telefone.telefone}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_telefone}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefone.telefone}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.treinamentos.idTreinamento}" filterBy="#{item.treinamentos.idTreinamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListNumRefMQPTitle_treinamentos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.treinamentos.idTreinamento}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{numRefMQPController.prepareCreate}" update=":NumRefMQPCreateForm" oncomplete="PF('NumRefMQPCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":NumRefMQPViewForm" oncomplete="PF('NumRefMQPViewDialog').show()" disabled="#{empty numRefMQPController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":NumRefMQPEditForm" oncomplete="PF('NumRefMQPEditDialog').show()" disabled="#{empty numRefMQPController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{numRefMQPController.delete}" update=":growl,datalist" disabled="#{empty numRefMQPController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

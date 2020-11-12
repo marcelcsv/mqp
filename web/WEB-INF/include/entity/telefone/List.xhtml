@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TelefoneListForm">
+
+        <p:panel header="#{mqpBundle.ListTelefoneTitle}">
+            <p:contextMenu id="TelefoneDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mqpBundle.Create}" onclick="document.getElementById('TelefoneListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mqpBundle.View}" onclick="document.getElementById('TelefoneListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mqpBundle.Edit}" onclick="document.getElementById('TelefoneListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mqpBundle.Delete}" onclick="document.getElementById('TelefoneListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_acao}" icon="ui-icon-search"  actionListener="#{telefoneController.prepareAcao}" update=":AcaoViewForm" oncomplete="PF('AcaoViewDialog').show()" disabled="#{empty telefoneController.selected.acao}"/>  
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_dispositivo}" icon="ui-icon-search"  actionListener="#{telefoneController.prepareDispositivo}" update=":DispositivoMovelViewForm" oncomplete="PF('DispositivoMovelViewDialog').show()" disabled="#{empty telefoneController.selected.dispositivo}"/>  
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_operadora}" icon="ui-icon-search"  actionListener="#{telefoneController.prepareOperadora}" update=":OperadoraTelefoneViewForm" oncomplete="PF('OperadoraTelefoneViewDialog').show()" disabled="#{empty telefoneController.selected.operadora}"/>  
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_situacao}" icon="ui-icon-search"  actionListener="#{telefoneController.prepareSituacao}" update=":SituacaoViewForm" oncomplete="PF('SituacaoViewDialog').show()" disabled="#{empty telefoneController.selected.situacao}"/>  
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_status}" icon="ui-icon-search"  actionListener="#{telefoneController.prepareStatus}" update=":StatusViewForm" oncomplete="PF('StatusViewDialog').show()" disabled="#{empty telefoneController.selected.status}"/>  
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_tipoLinha}" icon="ui-icon-search"  actionListener="#{telefoneController.prepareTipoLinha}" update=":TipoLinhaViewForm" oncomplete="PF('TipoLinhaViewDialog').show()" disabled="#{empty telefoneController.selected.tipoLinha}"/>  
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_movimentoPendente}" icon="ui-icon-search"  actionListener="#{telefoneController.prepareMovimentoPendente}" update=":TipoMovimentoPendenteViewForm" oncomplete="PF('TipoMovimentoPendenteViewDialog').show()" disabled="#{empty telefoneController.selected.movimentoPendente}"/>  
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_matricula}" icon="ui-icon-search"  actionListener="#{telefoneController.prepareMatricula}" update=":UorPosViewForm" oncomplete="PF('UorPosViewDialog').show()" disabled="#{empty telefoneController.selected.matricula}"/>  
+                <p:menuitem value="#{mqpBundle.TelefoneMenuItem_numRefMQPCollection}" icon="ui-icon-search"  action="#{telefoneController.navigateNumRefMQPCollection}" disabled="#{telefoneController.isNumRefMQPCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         emptyMessage="#{mqpBundle.EmptyMessage}"
+                         value="#{telefoneController.items}"
+                         lazy="false"
+                         rowKey="#{item.telefone}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,30,50"
+                         selectionMode="single"
+                         selection="#{telefoneController.selected}"
+                         filteredValue="#{telefoneController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{telefoneController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.telefone}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TelefoneDataTableContextMenu" listener="#{telefoneController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TelefoneDataTableContextMenu" listener="#{telefoneController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{telefoneController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TelefoneListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.telefone}" filterBy="#{item.telefone}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_telefone}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefone}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ddd}" filterBy="#{item.ddd}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_ddd}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ddd}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.acao.descricaoAcao}" filterBy="#{item.acao.descricaoAcao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_acao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.acao.descricaoAcao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.dispositivo.idDispositivoMovel}" filterBy="#{item.dispositivo.idDispositivoMovel}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_dispositivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dispositivo.idDispositivoMovel}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.operadora.idOperadora}" filterBy="#{item.operadora.idOperadora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_operadora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.operadora.idOperadora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.situacao.descricaoSituacao}" filterBy="#{item.situacao.descricaoSituacao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_situacao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.situacao.descricaoSituacao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.status.status}" filterBy="#{item.status.status}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_status}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status.status}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoLinha.descricaoTipoLinha}" filterBy="#{item.tipoLinha.descricaoTipoLinha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_tipoLinha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoLinha.descricaoTipoLinha}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.movimentoPendente.descricaoTipoMovimentoPendente}" filterBy="#{item.movimentoPendente.descricaoTipoMovimentoPendente}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_movimentoPendente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.movimentoPendente.descricaoTipoMovimentoPendente}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.matricula.matricula}" filterBy="#{item.matricula.matricula}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mqpBundle.ListTelefoneTitle_matricula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.matricula.matricula}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mqpBundle.Create}" actionListener="#{telefoneController.prepareCreate}" update=":TelefoneCreateForm" oncomplete="PF('TelefoneCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mqpBundle.View}" update=":TelefoneViewForm" oncomplete="PF('TelefoneViewDialog').show()" disabled="#{empty telefoneController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mqpBundle.Edit}" update=":TelefoneEditForm" oncomplete="PF('TelefoneEditDialog').show()" disabled="#{empty telefoneController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mqpBundle.Delete}" actionListener="#{telefoneController.delete}" update=":growl,datalist" disabled="#{empty telefoneController.selected}">
+                <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

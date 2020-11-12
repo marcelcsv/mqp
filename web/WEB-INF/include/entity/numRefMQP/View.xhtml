@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NumRefMQPViewDlg" widgetVar="NumRefMQPViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewNumRefMQPTitle}" closeOnEscape="true">
+
+            <h:form id="NumRefMQPViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{numRefMQPController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_numRefMQPPK_numRef}"/>
+                        <h:outputText value="#{numRefMQPController.selected.numRefMQPPK.numRef}" title="#{mqpBundle.ViewNumRefMQPTitle_numRefMQPPK_numRef}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_numRefMQPPK_idMQP}"/>
+                        <h:outputText value="#{numRefMQPController.selected.numRefMQPPK.idMQP}" title="#{mqpBundle.ViewNumRefMQPTitle_numRefMQPPK_idMQP}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_cartaoCorporativo}"/>
+                        <h:outputText value="#{numRefMQPController.selected.cartaoCorporativo.idCartaoCorporativo}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_cartaoMultibeneficios}"/>
+                        <h:outputText value="#{numRefMQPController.selected.cartaoMultibeneficios.idCartaoMultibeneficios}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_categoria}"/>
+                        <h:outputText value="#{numRefMQPController.selected.categoria.descricaoCategoria}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_equipamentos}"/>
+                        <h:outputText value="#{numRefMQPController.selected.equipamentos.descricaoEquipamento}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_gdp}"/>
+                        <h:outputText value="#{numRefMQPController.selected.gdp.descricaoGDP}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_prestacaoDeContas}"/>
+                        <h:outputText value="#{numRefMQPController.selected.prestacaoDeContas.descricaoPrestacaoDeContas}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_servicos}"/>
+                        <h:outputText value="#{numRefMQPController.selected.servicos.descricaoServico}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_tagEstacionamento}"/>
+                        <h:outputText value="#{numRefMQPController.selected.tagEstacionamento.tag}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_telefone}"/>
+                        <h:outputText value="#{numRefMQPController.selected.telefone.telefone}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewNumRefMQPLabel_treinamentos}"/>
+                        <h:outputText value="#{numRefMQPController.selected.treinamentos.idTreinamento}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('NumRefMQPViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

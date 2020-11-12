@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MqpInitViewDlg" widgetVar="MqpInitViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.ViewMqpInitTitle}" closeOnEscape="true">
+
+            <h:form id="MqpInitViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{mqpInitController.selected != null}">
+
+                        <h:outputText value="#{mqpBundle.ViewMqpInitLabel_idMQPinit}"/>
+                        <h:outputText value="#{mqpInitController.selected.idMQPinit}" title="#{mqpBundle.ViewMqpInitTitle_idMQPinit}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpInitLabel_matrMqp}"/>
+                        <h:outputText value="#{mqpInitController.selected.matrMqp.matricula} - #{mqpInitController.selected.matrMqp.nome}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpInitLabel_movimentacao}"/>
+                        <h:outputText value="#{mqpInitController.selected.movimentacao.nomeMovimentacao}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpInitLabel_status}"/>
+                        <h:outputText value="#{mqpInitController.selected.status.status}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpInitLabel_matrSolicitante}"/>
+                        <h:outputText value="#{mqpInitController.selected.matrSolicitante.matricula} - #{mqpInitController.selected.matrSolicitante.nome}"/>
+
+                        <h:outputText value="#{mqpBundle.ViewMqpInitLabel_dtref}"/>
+                        <h:outputText value="#{mqpInitController.selected.dtref}" title="#{mqpBundle.ViewMqpInitTitle_dtref}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{mqpBundle.Close}" onclick="PF('MqpInitViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

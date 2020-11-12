@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DispositivoMovelCreateDlg" widgetVar="DispositivoMovelCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateDispositivoMovelTitle}" closeOnEscape="true">
+
+            <h:form id="DispositivoMovelCreateForm">
+
+                <h:panelGroup id="display" rendered="#{dispositivoMovelController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateDispositivoMovelLabel_idDispositivoMovel}" for="idDispositivoMovel" />
+                        <h:panelGroup>
+                            <p:inputText id="idDispositivoMovel" value="#{dispositivoMovelController.selected.idDispositivoMovel}" title="#{mqpBundle.CreateDispositivoMovelTitle_idDispositivoMovel}" required="true" requiredMessage="#{mqpBundle.CreateDispositivoMovelRequiredMessage_idDispositivoMovel}"/>
+                            <p:tooltip for="idDispositivoMovel" value="#{dispositivoMovelController.getComponentMessages('idDispositivoMovel', mqpBundle.CreateDispositivoMovelHelpText_idDispositivoMovel)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateDispositivoMovelLabel_nomeDispositivoMovel}" for="nomeDispositivoMovel" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeDispositivoMovel" value="#{dispositivoMovelController.selected.nomeDispositivoMovel}" title="#{mqpBundle.CreateDispositivoMovelTitle_nomeDispositivoMovel}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeDispositivoMovel" value="#{dispositivoMovelController.getComponentMessages('nomeDispositivoMovel', mqpBundle.CreateDispositivoMovelHelpText_nomeDispositivoMovel)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateDispositivoMovelLabel_categoria}" for="categoria" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="categoria" value="#{dispositivoMovelController.selected.categoria}"  converter="categoriaDispositivoConverter">
+                                <f:selectItem itemLabel="#{mqpBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{categoriaDispositivoController.items}"
+                                               var="categoriaItem"
+                                               itemValue="#{categoriaItem}"
+                                               itemLabel="#{categoriaItem.idCategoria.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="categoria" value="#{dispositivoMovelController.getComponentMessages('categoria', mqpBundle.CreateDispositivoMovelHelpText_categoria)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{dispositivoMovelController.saveNew}" value="#{mqpBundle.Save}" update="display,:DispositivoMovelListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DispositivoMovelCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('DispositivoMovelCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

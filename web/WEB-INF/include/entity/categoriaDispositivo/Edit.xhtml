@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CategoriaDispositivoEditDlg" widgetVar="CategoriaDispositivoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mqpBundle.EditCategoriaDispositivoTitle}" closeOnEscape="true">
+
+            <h:form id="CategoriaDispositivoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{categoriaDispositivoController.selected != null}">
+
+
+                        <h:outputLabel value="#{mqpBundle.EditCategoriaDispositivoLabel_idCategoria}" for="idCategoria" />
+                        <h:panelGroup>
+                            <h:outputText id="idCategoria" value="#{categoriaDispositivoController.selected.idCategoria}" />
+                            <p:tooltip for="idCategoria" value="#{categoriaDispositivoController.getComponentMessages('idCategoria', mqpBundle.EditCategoriaDispositivoHelpText_idCategoria)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.EditCategoriaDispositivoLabel_nomeCategoria}" for="nomeCategoria" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeCategoria" value="#{categoriaDispositivoController.selected.nomeCategoria}" title="#{mqpBundle.EditCategoriaDispositivoTitle_nomeCategoria}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeCategoria" value="#{categoriaDispositivoController.getComponentMessages('nomeCategoria', mqpBundle.EditCategoriaDispositivoHelpText_nomeCategoria)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{categoriaDispositivoController.save}" value="#{mqpBundle.Save}" update="display,:CategoriaDispositivoListForm:datalist,:CategoriaDispositivoListForm:CategoriaDispositivoDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CategoriaDispositivoEditDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('CategoriaDispositivoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

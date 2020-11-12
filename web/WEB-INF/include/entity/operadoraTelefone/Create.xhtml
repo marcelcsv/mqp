@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperadoraTelefoneCreateDlg" widgetVar="OperadoraTelefoneCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mqpBundle.CreateOperadoraTelefoneTitle}" closeOnEscape="true">
+
+            <h:form id="OperadoraTelefoneCreateForm">
+
+                <h:panelGroup id="display" rendered="#{operadoraTelefoneController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{mqpBundle.CreateOperadoraTelefoneLabel_idOperadora}" for="idOperadora" />
+                        <h:panelGroup>
+                            <p:inputText id="idOperadora" value="#{operadoraTelefoneController.selected.idOperadora}" title="#{mqpBundle.CreateOperadoraTelefoneTitle_idOperadora}" required="true" requiredMessage="#{mqpBundle.CreateOperadoraTelefoneRequiredMessage_idOperadora}"/>
+                            <p:tooltip for="idOperadora" value="#{operadoraTelefoneController.getComponentMessages('idOperadora', mqpBundle.CreateOperadoraTelefoneHelpText_idOperadora)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{mqpBundle.CreateOperadoraTelefoneLabel_nomeOperadora}" for="nomeOperadora" />
+                        <h:panelGroup>
+                            <p:inputText id="nomeOperadora" value="#{operadoraTelefoneController.selected.nomeOperadora}" title="#{mqpBundle.CreateOperadoraTelefoneTitle_nomeOperadora}" required="true" requiredMessage="#{mqpBundle.CreateOperadoraTelefoneRequiredMessage_nomeOperadora}" size="100" maxlength="100"/>
+                            <p:tooltip for="nomeOperadora" value="#{operadoraTelefoneController.getComponentMessages('nomeOperadora', mqpBundle.CreateOperadoraTelefoneHelpText_nomeOperadora)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operadoraTelefoneController.saveNew}" value="#{mqpBundle.Save}" update="display,:OperadoraTelefoneListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OperadoraTelefoneCreateDialog'));">
+                        <p:confirm header="#{mqpBundle.ConfirmationHeader}" message="#{mqpBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{mqpBundle.Cancel}" oncomplete="PF('OperadoraTelefoneCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
